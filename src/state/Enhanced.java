@@ -28,7 +28,8 @@ public class Enhanced implements CharacterState {
 
 	@Override
 	public int attackPower(Character player) {
-		return player.getAttackPower() + POWER_INCREASE;
+		//return player.getAttackPower() + POWER_INCREASE;
+		return -1;
 	}
 
 	@Override

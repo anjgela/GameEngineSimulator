@@ -28,7 +28,8 @@ public class Slowed implements CharacterState {
 
 	@Override
 	public int attackPower(Character player) {
-		return player.getAttackPower();
+		//return player.getAttackPower();
+		return -1;
 		}
 
 	@Override

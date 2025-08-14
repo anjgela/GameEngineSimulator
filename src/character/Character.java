@@ -11,9 +11,7 @@ import skill.Skill;
 public abstract class Character {
 	protected String name;
 	protected int health;
-	protected static final int MAX_HEALTH = 100;
-	protected int attackPower;
-	protected static final int MAX_ATTACK_POWER = 16; 
+	public static final int MAX_HEALTH = 100;
 	protected static float hitChance;
 	protected static float missChance;
 	protected int powerStorage;
@@ -25,7 +23,6 @@ public abstract class Character {
 	
 	public Character() {
 		health = MAX_HEALTH;
-		attackPower = MAX_ATTACK_POWER; 
 		powerStorage = MAX_POWER_STORAGE;
 	}
 	
@@ -54,12 +51,6 @@ public abstract class Character {
 		missChance = chance;
 	}
 	
-	public int getAttackPower() {
-		return attackPower;
-	}
-	public void setAttackPower(int amount) {
-		attackPower = amount;
-	}
 	
 	public CharacterState getState() {
 		return state;
@@ -67,11 +58,6 @@ public abstract class Character {
 	public void setState(CharacterState newState) {
 		state = newState;
 	}
-	
-	public void restoreAttackPower() {
-		attackPower = MAX_ATTACK_POWER;
-	}
-	
 	
 	protected void takeDamage(int damage) {
 		health -= damage;

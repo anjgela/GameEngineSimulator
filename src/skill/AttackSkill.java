@@ -4,9 +4,8 @@ import java.util.List;
 import character.Character;
 
 public class AttackSkill implements Skill{
-	String name;
-	int power;
-	int damage;
+	private String name;
+	private int damage;
 	
 	public AttackSkill(String name) {
 		this.name = name;
@@ -17,8 +16,11 @@ public class AttackSkill implements Skill{
 	public String getName() {
 		return name;
 	}
-
-
+	
+	public int getDamage() {
+		return damage;
+	}
+	
 	@Override
 	public void apply(Character target) {
 		// TODO Auto-generated method stub

@@ -8,7 +8,7 @@ import command.Command;
 import observer.Observable;
 import observer.Observer;
 
-public class BattleEngine extends Observable{
+public class BattleEngine implements Observable{
 	private static BattleEngine instance = null;
 	private final List<Character> teamGreen;
 	private final List<Character> teamPink;
@@ -35,17 +35,17 @@ public class BattleEngine extends Observable{
 	
 	//observer methods
 	@Override
-	protected void attach(Observer observer) {
+	public void attach(Observer observer) {
 		observers.add(observer);
 	}
 	
 	@Override
-	protected void detach(Observer observer) {
+	public void detach(Observer observer) {
 		observers.remove(observer);
 	}
 	
 	@Override
-	protected void notifyObservers(Event event) {
+	public void notifyObservers(Event event) {
 		for (Observer observer: observers) {
 			observer.update(event);
 		}

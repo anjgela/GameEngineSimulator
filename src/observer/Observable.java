@@ -2,8 +2,8 @@ package observer;
 
 import engine.Event;
 
-public abstract class Observable {
-	protected abstract void attach(Observer observer);
-	protected abstract void detach(Observer observer);
-	protected abstract void notifyObservers(Event event);
+public interface Observable {
+	public abstract void attach(Observer observer);
+	public abstract void detach(Observer observer);
+	public abstract void notifyObservers(Event event);
 }

@@ -29,7 +29,8 @@ public class Poisoned implements CharacterState {
 	
 	@Override
 	public int attackPower(Character player) {
-		return player.getAttackPower() - POWER_DECREASE;
+		//return player.getAttackPower() - POWER_DECREASE;
+		return -1;
 	}
 	
 	@Override

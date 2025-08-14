@@ -5,7 +5,8 @@ import java.util.List;
 import character.Character;
 
 public class HealSkill implements Skill{
-	String name;
+	private String name;
+	private int healing;
 	
 	public HealSkill(String name) {
 		this.name = name;
@@ -14,6 +15,10 @@ public class HealSkill implements Skill{
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	public int getHealing() {
+		return healing;
 	}
 
 	@Override
