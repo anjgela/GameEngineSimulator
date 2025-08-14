@@ -4,49 +4,27 @@ import java.util.Random;
 
 import character.Character;
 
-public class Poisoned implements CharacterState {
+public class Poisoned extends CharacterState {
 	private CharacterState.ID id = CharacterState.ID.POISONED;
 	private static final float HIT_CHANCE = 0.5F;
 	private static final int POWER_DECREASE = 3;
-	private static final float MISS_CHANCE = 0.5F;
+	private static final float DODGE_CHANCE = 0.5F;
 	
-	@Override
-	public CharacterState.ID getID() {
-		return id;
+	public Poisoned(ID id, int duration) {
+		super(id, duration);
 	}
 	
-	@Override
-	public float hitChance(Character player) {
-		Random rand = new Random();
-		return rand.nextFloat();
+	public Poisoned(ID id) {
+		super(id);
 	}
-	
 	@Override
-	public float missChance(Character player) {
-		Random rand = new Random();
-		return rand.nextFloat();
-	}
-	
-	@Override
-	public int attackPower(Character player) {
-		//return player.getAttackPower() - POWER_DECREASE;
-		return -1;
-	}
-	
-	@Override
-	public void setHitChance(Character player) {
-		player.setHitChance(HIT_CHANCE);
-	}
-	
-	@Override
-	public void setMissChance(Character player) {
-		player.setMissChance(MISS_CHANCE);
+	public float getHitChance() {
+		return HIT_CHANCE;
 	}
 
 	@Override
-	public void onTurnStart() {
-		// TODO Auto-generated method stub
-		
+	public float getDodgeChance() {
+		return DODGE_CHANCE;
 	}
 	
 	//attack power lowers

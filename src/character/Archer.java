@@ -22,14 +22,20 @@ public class Archer extends Character{
 	}
 
 	@Override
-	protected boolean defend(Character target) {
+	protected boolean attack(List<Character> targets) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	protected void performAction(Character target) {
+	protected boolean heal(Character target) {
 		// TODO Auto-generated method stub
-		 
+		return false;
+	}
+
+	@Override
+	protected boolean heal(List<Character> targets) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

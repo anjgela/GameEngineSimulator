@@ -3,6 +3,7 @@ package skill;
 import java.util.List;
 
 import character.Character;
+import state.CharacterState;
 import state.Poisoned;
 
 public class Poisonous extends SkillDecorator {
@@ -13,7 +14,7 @@ public class Poisonous extends SkillDecorator {
 	
 	public void apply(Character target) {
 		super.apply(target);
-		target.setState(new Poisoned());
+		target.setState(new Poisoned(CharacterState.ID.POISONED, 3));
 	}
 	
     public String getName() {

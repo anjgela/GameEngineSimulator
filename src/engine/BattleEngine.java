@@ -2,6 +2,7 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import character.Character;
 import command.Command;
@@ -65,7 +66,7 @@ public class BattleEngine implements Observable{
 				command = player.chooseAction(teamGreen, teamPink);
 			}
 			
-			command.execute();
+			command.execute(this);
 			
 			notifyObservers(new Event(Event.Type.TURN_END, new TurnInfo(player, command)));
 			
@@ -76,6 +77,32 @@ public class BattleEngine implements Observable{
 			System.out.print(winner.getName() + " ");
 		}
 		
+	}
+	
+	public boolean attackSucceds(Character player, Character target) {
+		float hitChance = player.getState().getHitChance();
+		float dodgeChance = target.getState().getDodgeChance();
+		float successChance = hitChance * (1 - dodgeChance);
+		Random rand = new Random();
+		return rand.nextFloat() < successChance;
+	}
+	
+	public boolean attackSucceds(Character player, List<Character> targets) {
+		float hitChance = player.getState().getHitChance();
+		int successes = 0;
+		for (Character target : targets) {
+			float dodgeChance = target.getState().getDodgeChance();
+			float successChance = hitChance * (1 - dodgeChance);
+			Random rand = new Random();
+			if (rand.nextFloat() < successChance) {
+				successes++;
+			}
+		}
+		if (successes > targets.size()/2) {
+			return true;
+		}
+		 
+		return false;
 	}
 
 	//helper methods
@@ -131,52 +158,6 @@ public class BattleEngine implements Observable{
 			}
 		} //FIXME MAYBE REMOVE THE DEATH CHARACTERS FROM TURNORDER AND ADJUST TURNATION IN START
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

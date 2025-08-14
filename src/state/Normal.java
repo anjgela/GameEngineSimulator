@@ -4,48 +4,27 @@ import java.util.Random;
 
 import character.Character;
 
-public class Normal implements CharacterState {
+public class Normal extends CharacterState {
 	private final CharacterState.ID id = CharacterState.ID.NORMAL;
 	private static final float HIT_CHANCE = 0.6F;
-	private static final float MISS_CHANCE = 0.6F;
+	private static final float DODGE_CHANCE = 0.6F;
 	
-	@Override
-	public CharacterState.ID getID() {
-		return id;
+	public Normal(ID id, int duration) {
+		super(id, duration);
+	}
+
+	public Normal(ID id) {
+		super(id);
 	}
 	
 	@Override
-	public float hitChance(Character player) {
-		Random rand = new Random();
-		return rand.nextFloat(); // [0.0, 1.0)
-	}
-	
-	@Override
-	public float missChance(Character player) {
-		Random rand = new Random();
-		return rand.nextFloat();
-	}
-	
-	@Override
-	public int attackPower(Character player) {
-		//return player.getAttackPower();
-		return -1;
-	}
-	
-	@Override
-	public void setHitChance(Character player) {
-		player.setHitChance(HIT_CHANCE);
-	}
-	
-	@Override
-	public void setMissChance(Character player) {
-		player.setMissChance(MISS_CHANCE);
+	public float getHitChance() {
+		return HIT_CHANCE;
 	}
 
 	@Override
-	public void onTurnStart() {
-		// TODO Auto-generated method stub
-		
+	public float getDodgeChance() {
+		return DODGE_CHANCE;
 	}
-	
 }
+

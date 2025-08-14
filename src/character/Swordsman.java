@@ -21,20 +21,19 @@ public class Swordsman extends Character {
 	
 	@Override
  	protected boolean attack(Character target) {
- 		state.setHitChance(this);
- 		target.getState().setMissChance(target);
- 		return (state.hitChance(this) * target.getState().missChance(target)) < hitChance;
-	}
+		return false;
+ 		}
+	@Override
+ 	protected boolean attack(List<Character> targets) {
+		return false;
+ 		}
 	
  	@Override
-	protected boolean defend(Character target) {
-		state.setMissChance(this);
-		target.getState().setHitChance(target);
-		return (state.missChance(this) * target.getState().hitChance(target)) < missChance;
-	}
-	@Override
-	protected void performAction(Character target) {
-		// TODO Auto-generated method stub
-		
-	}
+	protected boolean heal(Character target) {
+		return false;
+ 	}
+ 	@Override
+	protected boolean heal(List<Character> targets) {
+		return false;
+ 	}
 }

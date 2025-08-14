@@ -12,14 +12,12 @@ public abstract class Character {
 	protected String name;
 	protected int health;
 	public static final int MAX_HEALTH = 100;
-	protected static float hitChance;
-	protected static float missChance;
 	protected int powerStorage;
 	protected static final int MAX_POWER_STORAGE = 30;
 	protected List<Skill> attackSkills;
 	protected List<Skill> healSkills;
+	protected Skill currentSkill;
 	protected CharacterState state;
-	
 	
 	public Character() {
 		health = MAX_HEALTH;
@@ -37,21 +35,6 @@ public abstract class Character {
 		return health;
 	}
 	
-	public float getHitChance() {
-		return hitChance;
-	}
-	public void setHitChance(float chance) {
-		hitChance = chance;
-	}
-	
-	public float getMissChance() {
-		return missChance;
-	}
-	public void setMissChance(float chance) {
-		missChance = chance;
-	}
-	
-	
 	public CharacterState getState() {
 		return state;
 	}
@@ -59,7 +42,14 @@ public abstract class Character {
 		state = newState;
 	}
 	
-	protected void takeDamage(int damage) {
+	public void setSkill(Skill skill) {
+		currentSkill = skill;
+	}
+	
+	public Skill getCurrentSkill() {
+		return currentSkill;
+	}
+	public void takeDamage(int damage) {
 		health -= damage;
 	}
 	
@@ -148,10 +138,10 @@ public abstract class Character {
 		return target;
 	}
 	
-	protected abstract void performAction(Character target);
-	
 	protected abstract boolean attack(Character target);
+	protected abstract boolean attack(List<Character> targets);
 	
-	protected abstract boolean defend(Character target);
+	protected abstract boolean heal(Character target);
+	protected abstract boolean heal(List<Character> targets);
 	
 }
