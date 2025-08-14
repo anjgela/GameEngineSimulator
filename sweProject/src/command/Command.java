@@ -2,6 +2,7 @@ package command;
 import java.util.List;
 
 import character.Character;
+import engine.BattleEngine;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class Command {
 	public void setTarget(List<Character> characters) {
 		targets.addAll(characters);
 	}
-	public void execute() {
+	public void execute(BattleEngine engine) {
 		
 	}
 	

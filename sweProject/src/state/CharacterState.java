@@ -1,24 +1,46 @@
 package state;
+
+
 import character.Character;
 
-public interface CharacterState {
+public abstract class CharacterState {
 
-	enum ID {NORMAL, SLOWED, POISONED, ENHANCED};
+	public static enum ID {NORMAL, SLOWED, POISONED, ENHANCED};
+	protected final ID id;
+	protected int remainingTurns;
 	
-	public ID getID();
-	public float hitChance(Character player);	//attack
-	public float missChance(Character player);	//defense
-	public int attackPower(Character player);
+	protected CharacterState(ID id, int duration) {
+		this.id = id;
+		this.remainingTurns = duration;
+		}
+	protected CharacterState(ID id) {
+		this.id = id;
+	}
+	public ID getID() {
+		return id;
+	}
 	
-	public void setHitChance(Character player);
-	public void setMissChance(Character player);
+	public abstract float getHitChance();
+	public abstract float getDodgeChance();
 	
-	public void onTurnStart();
 	
-	default void apply(Character player) {
+	public void onTurnStart(Character player) {
+		if (remainingTurns > 0) {
+			applyState(player);
+			remainingTurns--;
+		}
+		else {
+			onExpire(player);
+		}
+	}
+	
+	public void applyState(Character player) {
 		player.setState(this);
 	}
 	
+	public void onExpire(Character player) {
+		player.setState(new Normal(ID.NORMAL, 100));
+	}
 	
 }
 

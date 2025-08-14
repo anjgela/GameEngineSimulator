@@ -11,21 +11,16 @@ import skill.Skill;
 public abstract class Character {
 	protected String name;
 	protected int health;
-	protected static final int MAX_HEALTH = 100;
-	protected int attackPower;
-	protected static final int MAX_ATTACK_POWER = 16; 
-	protected static float hitChance;
-	protected static float missChance;
+	public static final int MAX_HEALTH = 100;
 	protected int powerStorage;
 	protected static final int MAX_POWER_STORAGE = 30;
 	protected List<Skill> attackSkills;
 	protected List<Skill> healSkills;
+	protected Skill currentSkill;
 	protected CharacterState state;
-	
 	
 	public Character() {
 		health = MAX_HEALTH;
-		attackPower = MAX_ATTACK_POWER; 
 		powerStorage = MAX_POWER_STORAGE;
 	}
 	
@@ -40,27 +35,6 @@ public abstract class Character {
 		return health;
 	}
 	
-	public float getHitChance() {
-		return hitChance;
-	}
-	public void setHitChance(float chance) {
-		hitChance = chance;
-	}
-	
-	public float getMissChance() {
-		return missChance;
-	}
-	public void setMissChance(float chance) {
-		missChance = chance;
-	}
-	
-	public int getAttackPower() {
-		return attackPower;
-	}
-	public void setAttackPower(int amount) {
-		attackPower = amount;
-	}
-	
 	public CharacterState getState() {
 		return state;
 	}
@@ -68,12 +42,14 @@ public abstract class Character {
 		state = newState;
 	}
 	
-	public void restoreAttackPower() {
-		attackPower = MAX_ATTACK_POWER;
+	public void setSkill(Skill skill) {
+		currentSkill = skill;
 	}
 	
-	
-	protected void takeDamage(int damage) {
+	public Skill getCurrentSkill() {
+		return currentSkill;
+	}
+	public void takeDamage(int damage) {
 		health -= damage;
 	}
 	
@@ -162,10 +138,10 @@ public abstract class Character {
 		return target;
 	}
 	
-	protected abstract void performAction(Character target);
-	
 	protected abstract boolean attack(Character target);
+	protected abstract boolean attack(List<Character> targets);
 	
-	protected abstract boolean defend(Character target);
+	protected abstract boolean heal(Character target);
+	protected abstract boolean heal(List<Character> targets);
 	
 }

@@ -2,13 +2,14 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import character.Character;
 import command.Command;
 import observer.Observable;
 import observer.Observer;
 
-public class BattleEngine extends Observable{
+public class BattleEngine implements Observable{
 	private static BattleEngine instance = null;
 	private final List<Character> teamGreen;
 	private final List<Character> teamPink;
@@ -35,17 +36,17 @@ public class BattleEngine extends Observable{
 	
 	//observer methods
 	@Override
-	protected void attach(Observer observer) {
+	public void attach(Observer observer) {
 		observers.add(observer);
 	}
 	
 	@Override
-	protected void detach(Observer observer) {
+	public void detach(Observer observer) {
 		observers.remove(observer);
 	}
 	
 	@Override
-	protected void notifyObservers(Event event) {
+	public void notifyObservers(Event event) {
 		for (Observer observer: observers) {
 			observer.update(event);
 		}
@@ -65,7 +66,7 @@ public class BattleEngine extends Observable{
 				command = player.chooseAction(teamGreen, teamPink);
 			}
 			
-			command.execute();
+			command.execute(this);
 			
 			notifyObservers(new Event(Event.Type.TURN_END, new TurnInfo(player, command)));
 			
@@ -76,6 +77,32 @@ public class BattleEngine extends Observable{
 			System.out.print(winner.getName() + " ");
 		}
 		
+	}
+	
+	public boolean attackSucceds(Character player, Character target) {
+		float hitChance = player.getState().getHitChance();
+		float dodgeChance = target.getState().getDodgeChance();
+		float successChance = hitChance * (1 - dodgeChance);
+		Random rand = new Random();
+		return rand.nextFloat() < successChance;
+	}
+	
+	public boolean attackSucceds(Character player, List<Character> targets) {
+		float hitChance = player.getState().getHitChance();
+		int successes = 0;
+		for (Character target : targets) {
+			float dodgeChance = target.getState().getDodgeChance();
+			float successChance = hitChance * (1 - dodgeChance);
+			Random rand = new Random();
+			if (rand.nextFloat() < successChance) {
+				successes++;
+			}
+		}
+		if (successes > targets.size()/2) {
+			return true;
+		}
+		 
+		return false;
 	}
 
 	//helper methods
@@ -131,52 +158,6 @@ public class BattleEngine extends Observable{
 			}
 		} //FIXME MAYBE REMOVE THE DEATH CHARACTERS FROM TURNORDER AND ADJUST TURNATION IN START
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
