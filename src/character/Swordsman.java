@@ -2,21 +2,18 @@ package character;
 
 import java.util.List;
 
-import command.Command;
 import skill.AttackSkill;
 
 public class Swordsman extends Character {
 	
-	public Swordsman() {
+	public Swordsman(String name) {
+		super(name);
 		AttackSkill singleSword = new AttackSkill("singleSword");
 		attackSkills.add(singleSword);
 		AttackSkill multipleSword = new AttackSkill("multipleSword");
 		attackSkills.add(multipleSword);
 		AttackSkill poisonousSword = new AttackSkill("poisonousSword");
 		attackSkills.add(poisonousSword);
-	}
-	public Swordsman(String chosenName) {
-		 name = chosenName; //scanned
 	}
 	
 	@Override

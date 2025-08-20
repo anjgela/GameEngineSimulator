@@ -13,4 +13,9 @@ public class Multiple extends SkillDecorator {
     public String getName() {
         return "Multiple " + base.getName();
     }
+    
+    @Override 
+    public TargetType getTargetType() {
+    	return TargetType.MULTIPLE;
+    }
 }

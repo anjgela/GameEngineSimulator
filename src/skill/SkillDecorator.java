@@ -11,6 +11,13 @@ public abstract class SkillDecorator implements Skill {
 		this.base = base;
 	}
 	
+	public String getName() {
+		return base.getName();
+	}
+	
+	public TargetType getTargetType() {
+		return TargetType.SINGLE;
+	}
 	public void apply(Character target) {
 		base.apply(target);
 	}
@@ -18,7 +25,7 @@ public abstract class SkillDecorator implements Skill {
 		base.apply(targets);
 	}
 	
-	public String getName() {
-		return base.getName();
-	}
+	
+	
+
 }

@@ -15,6 +15,7 @@ public abstract class CharacterState {
 		}
 	protected CharacterState(ID id) {
 		this.id = id;
+		remainingTurns = 100;
 	}
 	public ID getID() {
 		return id;

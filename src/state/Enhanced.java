@@ -28,5 +28,5 @@ public class Enhanced extends CharacterState {
 	}
 	
 	//chances of hitting target boost
-	//attack power boosts
+	//attack damage to other boosts
 }

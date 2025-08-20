@@ -22,13 +22,13 @@ public class Main {
 			String choice = scanner.next().toUpperCase();
 			switch (choice) {
 				case "A":
-					players[i] = new Wizard();
+					players[i] = new Wizard("");
 					break;
 				case "B":
-					players[i] = new Swordsman();
+					players[i] = new Swordsman("");
 					break;
 				case "C":
-					players[i] = new Archer();
+					players[i] = new Archer("");
 					break;
 			}
 		

@@ -20,5 +20,4 @@ public class Poisonous extends SkillDecorator {
     public String getName() {
         return "Poisonous " + base.getName();
     }
-
 }

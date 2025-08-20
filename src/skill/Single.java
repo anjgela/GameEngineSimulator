@@ -13,5 +13,10 @@ public class Single extends SkillDecorator {
 	public String getName() {
         return "Single " + base.getName();
     }
+	
+	@Override
+	public TargetType getTargetType() {
+		return TargetType.SINGLE;
+	}
 
 }

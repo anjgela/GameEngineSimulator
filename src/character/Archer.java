@@ -1,12 +1,13 @@
 package character;
 
+
 import java.util.List;
-import command.Command;
+
 import skill.AttackSkill;
-import skill.Skill;
 
 public class Archer extends Character{
-	public Archer() {
+	public Archer(String name) {
+		super(name);
 		AttackSkill singleArrow = new AttackSkill("singleArrow");
 		attackSkills.add(singleArrow);
 		AttackSkill multipleArrow = new AttackSkill("multipleArrow");

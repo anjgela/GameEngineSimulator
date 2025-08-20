@@ -2,12 +2,12 @@ package character;
 
 import java.util.List;
 
-import command.Command;
 import skill.AttackSkill;
 
 public class Wizard extends Character{
 	
-	public Wizard() {
+	public Wizard(String name) {
+		super(name);
 		AttackSkill singleMagic = new AttackSkill("singleMagic");
 		attackSkills.add(singleMagic);
 		AttackSkill multipleMagic = new AttackSkill("multipleMagic");

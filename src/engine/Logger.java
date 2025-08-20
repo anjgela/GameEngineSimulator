@@ -11,18 +11,34 @@ public class Logger implements Observer{
 		switch (event.type()) {
 			case BATTLE_START: 
 				System.out.println("START FIGHTING!");
+				break;
 			case TURN_END:
-				System.out.println(event.payload());
+				TurnInfo turnEndInfo = (TurnInfo) event.payload();
+				System.out.println("TURN END: " + turnEndInfo.player().getName() + " used " + turnEndInfo.command().getLogMessage());
+				break;
 			case CHARACTER_DEATH:
 				Character player = (Character) event.payload();
-				System.out.println(player.getName() + " is dead");
+				System.out.println(player.getName() + " died");
+				break;
 			case BATTLE_OVER:
-				List<Character> winners = (List<Character>) event.payload();
-				System.out.println(winners.getFirst().getName());
-				if (winners.size() > 1) {
-					System.out.print(" and " + winners.getLast().getName());
-				}
-				System.out.print(" WON! ");
+				String winners = (String) event.payload();
+				System.out.print(winners + " won!");
+				break;
+			case ATTACK_HIT:
+				TurnInfo attackHitInfo = (TurnInfo) event.payload();
+				System.out.println(attackHitInfo.player().getName() + " hit " + attackHitInfo.target().getName() + " for " + attackHitInfo.value());
+				break;
+			case ATTACK_DODGE:
+				TurnInfo attackDodgeInfo = (TurnInfo) event.payload();
+				System.out.println(attackDodgeInfo.target().getName() + " dodged " + attackDodgeInfo.player().getName() + "'s attack");
+				break;
+			case SKILL_FAILED:
+				System.out.println("Skill failed: " + event.payload());
+				break;
+			case SKILL_USED:
+				TurnInfo skillUsedInfo = (TurnInfo) event.payload();
+				System.out.println(skillUsedInfo.player().getName() + " healed " + skillUsedInfo.target().getName() + " for " + skillUsedInfo.value());
+				break;
 		}
 		
 	}

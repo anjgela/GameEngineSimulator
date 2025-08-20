@@ -27,7 +27,7 @@ public class Poisoned extends CharacterState {
 		return DODGE_CHANCE;
 	}
 	
-	//attack power lowers
+	//attack damage to other lowers
 	//chances of defense lower 
 
 }

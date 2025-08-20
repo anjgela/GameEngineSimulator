@@ -11,12 +11,16 @@ import observer.Observer;
 
 public class BattleEngine implements Observable{
 	private static BattleEngine instance = null;
+	
 	private final List<Character> teamGreen;
 	private final List<Character> teamPink;
+	
 	private List<Observer> observers = new ArrayList<>();
-	private int currentTurnIndex;
+	
+	private int currentTurnIndex = 0;
 	private final List<Character> turnOrder = new ArrayList<>();
-	private List<Character> winners = new ArrayList<>();
+	
+	private String winners;
 	
 	private BattleEngine(List<Character> green, List<Character> pink) {
 		teamGreen = green;
@@ -59,7 +63,8 @@ public class BattleEngine implements Observable{
 			if (player == null) {
 				break;
 			}
-			Command command = new Command();
+			
+			Command command;
 			if (teamGreen.contains(player)) {
 				command = player.chooseAction(teamPink, teamGreen);
 			} else {
@@ -68,17 +73,26 @@ public class BattleEngine implements Observable{
 			
 			command.execute(this);
 			
-			notifyObservers(new Event(Event.Type.TURN_END, new TurnInfo(player, command)));
+			for (Character green : teamGreen) {
+				if (green.isAlive()) {
+					green.regeneratePowerStorage();
+				}
+			}
+			for (Character pink : teamPink) {
+				if (pink.isAlive()) {
+					pink.regeneratePowerStorage();
+				}
+			}
+			
+			notifyObservers(new Event(Event.Type.TURN_END, new TurnInfo(player, command, true, null, 0)));
 			
 			checkDeaths(); //death management
 		}
-		System.out.println("WINNING TEAM: ");
-		for (Character winner : winners) {
-			System.out.print(winner.getName() + " ");
-		}
 		
+		notifyObservers(new Event(Event.Type.BATTLE_OVER, winners)); //winners computed in .isBattleOver()
 	}
 	
+	//probabilistic logic
 	public boolean attackSucceds(Character player, Character target) {
 		float hitChance = player.getState().getHitChance();
 		float dodgeChance = target.getState().getDodgeChance();
@@ -106,7 +120,6 @@ public class BattleEngine implements Observable{
 	}
 
 	//helper methods
-	
 	private boolean isBattleOver() {
 		int deaths = 0;
 		for (Character character : teamGreen) {
@@ -115,8 +128,7 @@ public class BattleEngine implements Observable{
 			}
 		}
 		if (deaths == teamGreen.size()) {
-			winners = teamPink;
-			return true;
+			winners = "team Pink";
 		}
 		else {
 			deaths = 0;
@@ -127,7 +139,7 @@ public class BattleEngine implements Observable{
 			}
 		}
 		if (deaths == teamPink.size() ) {
-			winners = teamGreen;
+			winners = "team Green";
 			return true;
 		}
 		return false;
