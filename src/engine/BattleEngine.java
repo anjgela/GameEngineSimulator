@@ -51,9 +51,12 @@ public class BattleEngine implements Observable{
 	}
 	
 	@Override
-	public void notifyObservers(Event event) {
-		for (Observer observer: observers) {
-			observer.update(event);
+	public void notifyObservers(Object object) {
+		if (object instanceof Event) {
+			Event event = (Event) object;
+			for (Observer observer: observers) {
+				observer.update(event);
+			}
 		}
 	}
 	
