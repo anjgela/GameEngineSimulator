@@ -2,18 +2,27 @@ package character;
 
 import java.util.List;
 
+import skill.Skill;
 import skill.AttackSkill;
+import skill.HealSkill;
+import skill.Single;
+import skill.Multiple;
+import skill.Poisonous;
 
 public class Swordsman extends Character {
 	
 	public Swordsman(String name) {
 		super(name);
-		AttackSkill singleSword = new AttackSkill("singleSword");
+		Skill singleSword = new Single(new AttackSkill("single sword"));
 		attackSkills.add(singleSword);
-		AttackSkill multipleSword = new AttackSkill("multipleSword");
+		Skill multipleSword = new Multiple(new AttackSkill("multiple sword"));
 		attackSkills.add(multipleSword);
-		AttackSkill poisonousSword = new AttackSkill("poisonousSword");
+		Skill poisonousSword = new Single(new Poisonous(new AttackSkill("poisonous sword")));
 		attackSkills.add(poisonousSword);
+		Skill healingSword = new Single(new HealSkill("healing sword"));
+		healSkills.add(healingSword);
+		Skill healingSwords = new Multiple(new HealSkill("healing sowrds"));
+		healSkills.add(healingSwords);
 	}
 	
 	@Override

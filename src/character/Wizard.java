@@ -2,18 +2,27 @@ package character;
 
 import java.util.List;
 
+import skill.Skill;
 import skill.AttackSkill;
+import skill.HealSkill;
+import skill.Single;
+import skill.Multiple;
+import skill.Poisonous;
 
 public class Wizard extends Character{
 	
 	public Wizard(String name) {
 		super(name);
-		AttackSkill singleMagic = new AttackSkill("singleMagic");
+		Skill singleMagic = new Single(new AttackSkill("single magic"));
 		attackSkills.add(singleMagic);
-		AttackSkill multipleMagic = new AttackSkill("multipleMagic");
+		Skill multipleMagic = new Multiple(new AttackSkill("multiple magic"));
 		attackSkills.add(multipleMagic);
-		AttackSkill poisonousMagic = new AttackSkill("poisonousMagic");
+		Skill poisonousMagic = new Single(new Poisonous(new AttackSkill("poisonous magic")));
 		attackSkills.add(poisonousMagic);
+		Skill healingMagic = new Single(new HealSkill("haeling magic"));
+		healSkills.add(healingMagic);
+		Skill healingMultipleMagic = new Multiple(new HealSkill("multiple healing magic"));
+		healSkills.add(healingMultipleMagic);
 	}
 
 	@Override

@@ -3,17 +3,26 @@ package character;
 
 import java.util.List;
 
+import skill.Skill;
 import skill.AttackSkill;
+import skill.HealSkill;
+import skill.Single;
+import skill.Multiple;
+import skill.Poisonous;
 
 public class Archer extends Character{
 	public Archer(String name) {
 		super(name);
-		AttackSkill singleArrow = new AttackSkill("singleArrow");
+		Skill singleArrow = new Single(new AttackSkill("arrow"));
 		attackSkills.add(singleArrow);
-		AttackSkill multipleArrow = new AttackSkill("multipleArrow");
-		attackSkills.add(multipleArrow);
-		AttackSkill poisonousArrow = new AttackSkill("posinousArrow");
+		Skill rainingArrow = new Multiple(new AttackSkill("raining arrow"));
+		attackSkills.add(rainingArrow);
+		Skill poisonousArrow = new Single(new Poisonous(new AttackSkill("arrow"))); //Poisonous
 		attackSkills.add(poisonousArrow);
+		Skill healingArrow = new Single(new HealSkill("healing arrow")); //
+		healSkills.add(healingArrow);
+		Skill healingRain = new Multiple(new HealSkill("healing rain"));
+		healSkills.add(healingRain);
 	}
 
 	@Override

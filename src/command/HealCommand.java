@@ -2,6 +2,7 @@ package command;
 
 import skill.HealSkill;
 import skill.Skill;
+import skill.SkillDecorator;
 import character.Character;
 import engine.BattleEngine;
 import engine.Event;
@@ -9,9 +10,9 @@ import engine.Event;
 public class HealCommand extends Command{
 	private final HealSkill skill;
 	
-	public HealCommand(HealSkill skill) {
+	public HealCommand(SkillDecorator skill) {
 		super("Heal: " + skill.getName());
-		this.skill = skill;
+		this.skill = (HealSkill) skill.getBaseSkill();
 	}
 	
 	@Override

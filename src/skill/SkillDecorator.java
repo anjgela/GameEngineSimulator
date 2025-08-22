@@ -18,6 +18,15 @@ public abstract class SkillDecorator implements Skill {
 	public TargetType getTargetType() {
 		return TargetType.SINGLE;
 	}
+	
+	public Skill getBaseSkill() {
+	    Skill current = this;
+	    while (current instanceof SkillDecorator) {
+	        current = ((SkillDecorator) current).base;
+	    }
+	    return current;
+	}
+	
 	public void apply(Character target) {
 		base.apply(target);
 	}

@@ -5,13 +5,14 @@ import engine.Event;
 import character.Character;
 import skill.AttackSkill;
 import skill.Skill;
+import skill.SkillDecorator;
 
 public class AttackCommand extends Command {
 	private final AttackSkill skill;
 	
-	public AttackCommand(AttackSkill skill) {
+	public AttackCommand(SkillDecorator skill) {
 		super("Attack: " + skill.getName());
-		this.skill = skill;
+		this.skill = (AttackSkill) skill.getBaseSkill();
 	}
 
 	public void execute(BattleEngine engine) { 

@@ -14,6 +14,7 @@ public abstract class Command { //to maybe later change into AbstractCommand imp
 	public Command() {
 		this.name = "";
 	}
+	
 	protected Command(String name) {
 		this.name = name;
 	}
@@ -21,9 +22,11 @@ public abstract class Command { //to maybe later change into AbstractCommand imp
 	public void setPlayer(Character character) {
 		player = character;
 	}
+	
 	public void setTarget(Character character) {
 		targets.add(character);
 	}
+	
 	public void setTargets(List<Character> characters) {
 		targets.addAll(characters);
 	}

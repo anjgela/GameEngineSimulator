@@ -9,9 +9,9 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("BUTTING HEADS "
-				+ "\nChoose mode: 1) 1V1, 2)2V2"
+				+ "\nChoose mode: 1) 1V1, 2)2V2, 3)3V3"
 				+ "\nPlease enter the corresponding number>> ");
-		int mode = scanner.nextInt();
+		int mode = scanner.nextInt();		
 		Character[] players = new Character[mode*2];
 		
 		int i = 0;

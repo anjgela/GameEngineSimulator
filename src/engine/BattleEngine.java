@@ -14,6 +14,7 @@ public class BattleEngine implements Observable{
 	
 	private final List<Character> teamGreen;
 	private final List<Character> teamPink;
+	public static final int MAX_PLAYERS_PER_TEAM = 3;
 	
 	private List<Observer> observers = new ArrayList<>();
 	
@@ -59,6 +60,7 @@ public class BattleEngine implements Observable{
 	public void start() {
 		notifyObservers(new Event(Event.Type.BATTLE_START, null));
 		while (!isBattleOver()) {
+			currentTurnIndex++;
 			Character player = nextPlayerAlive();
 			if (player == null) {
 				break;

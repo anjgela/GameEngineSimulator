@@ -13,6 +13,7 @@ import skill.Skill;
 import skill.TargetType;
 import skill.AttackSkill;
 import skill.HealSkill;
+import skill.SkillDecorator;
 
 public abstract class Character {
 	protected String name;
@@ -24,8 +25,8 @@ public abstract class Character {
 	public static final int MAX_POWER_STORAGE = 30;
 	private final int powerRegenerationPowerPerTurn = 5;	//TODO maybe move to state
 	
-	protected List<AttackSkill> attackSkills;
-	protected List<HealSkill> healSkills;
+	protected List<Skill> attackSkills;
+	protected List<Skill> healSkills;
 	protected Skill currentSkill;
 	
 	protected CharacterState state;
@@ -34,6 +35,8 @@ public abstract class Character {
 		this.name = name;
 		health = MAX_HEALTH;
 		powerStorage = MAX_POWER_STORAGE;
+		attackSkills = new ArrayList<>();
+		healSkills = new ArrayList<>();
 		state = new Normal(CharacterState.ID.NORMAL);
 	}
 	
@@ -80,7 +83,7 @@ public abstract class Character {
 		powerStorage = Math.min(MAX_POWER_STORAGE, powerStorage += powerRegenerationPowerPerTurn);
 	}
 	
-	public List<AttackSkill> getAttackSKills() {
+	public List<Skill> getAttackSKills() {
 		return List.copyOf(attackSkills);
 	}
 	
@@ -88,7 +91,7 @@ public abstract class Character {
 		attackSkills.add(skill);
 	}
 	
-	public List<HealSkill> getHealSkills() {
+	public List<Skill> getHealSkills() {
 		return List.copyOf(healSkills);
 	}
 	
@@ -119,19 +122,23 @@ public abstract class Character {
 	public Command chooseAction(List<Character> opponents, List<Character> team) {
 		Command command = null;
 		Character target = null;
+		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Choose action: A) Attack  B) Heal");
 		String commandType = scanner.next().toUpperCase();
+		
 		switch (commandType) {
 			case "A":
 				int i = 1;
-				for (AttackSkill attackSkill : attackSkills) {					
+				for (Skill attackSkill : attackSkills) {					
 					System.out.print(i + ") " + attackSkill.getName() + " ");
 					i++;
 				}
 				int choiceAttack = scanner.nextInt();
-				AttackSkill chosenAttackSkill = attackSkills.get(choiceAttack-1);
-				command = new AttackCommand(chosenAttackSkill);
+				Skill chosenAttackSkill = attackSkills.get(choiceAttack-1);
+				
+				command = new AttackCommand((SkillDecorator)chosenAttackSkill);
+				
 				command.setPlayer(this);
 				if (chosenAttackSkill.getTargetType() == TargetType.MULTIPLE) {
 					command.setTargets(opponents);
@@ -149,8 +156,9 @@ public abstract class Character {
 					j++;
 				}
 				int choiceHeal = scanner.nextInt();
-				HealSkill chosenHealSkill = healSkills.get(choiceHeal-1);
-				command = new HealCommand(chosenHealSkill);
+				Skill chosenHealSkill = healSkills.get(choiceHeal-1);
+				
+				command = new HealCommand((SkillDecorator)chosenHealSkill);
 				command.setPlayer(this);
 				if (chosenHealSkill.getTargetType() == TargetType.MULTIPLE) {
 					command.setTargets(team);
