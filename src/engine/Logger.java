@@ -14,6 +14,14 @@ public class Logger implements Observer{
 				case BATTLE_START: 
 					System.out.println("START FIGHTING!");
 					break;
+				case TURN_START_GREEN:
+					Character greenPlayer = (Character) event.payload();
+					System.out.println("TEAM GREEN TURN: " + greenPlayer.getName() + " playing.");
+					break;
+				case TURN_START_PINK:
+					Character pinkPlayer = (Character) event.payload();
+					System.out.println("TEAM PINK TURN: " + pinkPlayer.getName() + " playing.");
+					break;
 				case TURN_END:
 					TurnInfo turnEndInfo = (TurnInfo) event.payload();
 					System.out.println("TURN END: " + turnEndInfo.player().getName() + " used " + turnEndInfo.command().getLogMessage());

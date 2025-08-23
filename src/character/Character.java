@@ -124,7 +124,7 @@ public abstract class Character {
 		Character target = null;
 		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Choose action: A) Attack  B) Heal");
+		System.out.println("Choose your action: A) Attack  B) Heal");
 		String commandType = scanner.next().toUpperCase();
 		
 		switch (commandType) {

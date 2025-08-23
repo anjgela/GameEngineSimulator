@@ -26,13 +26,13 @@ public class BattleEngine implements Observable{
 	private BattleEngine(List<Character> green, List<Character> pink) {
 		teamGreen = green;
 		teamPink = pink;
-		turnOrder.addAll(teamPink);	//populate order
-		turnOrder.addAll(teamGreen);
+		turnOrder.addAll(teamGreen);	//populate order
+		turnOrder.addAll(teamPink);
 		attach(new Logger());	//default logger
 	}
 	
 	//singleton
-	public BattleEngine getInstance(List<Character> green, List<Character> pink) {
+	public static BattleEngine getInstance(List<Character> green, List<Character> pink) {
 		if (instance == null) {
 			instance = new BattleEngine(green, pink);
 		}
@@ -71,8 +71,10 @@ public class BattleEngine implements Observable{
 			
 			Command command;
 			if (teamGreen.contains(player)) {
+				notifyObservers(new Event(Event.Type.TURN_START_GREEN, player));
 				command = player.chooseAction(teamPink, teamGreen);
 			} else {
+				notifyObservers(new Event(Event.Type.TURN_START_PINK, player));
 				command = player.chooseAction(teamGreen, teamPink);
 			}
 			
