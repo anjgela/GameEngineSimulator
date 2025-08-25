@@ -10,7 +10,6 @@ import command.Command;
 import command.AttackCommand;
 import command.HealCommand;
 import skill.Skill;
-import skill.TargetType;
 import skill.AttackSkill;
 import skill.HealSkill;
 import skill.SkillDecorator;
@@ -120,9 +119,6 @@ public abstract class Character {
 	}
 	
 	public Command chooseAction(List<Character> opponents, List<Character> team) {
-		Command command = null;
-		Character target = null;
-		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Choose your action: A) Attack  B) Heal");
 		String commandType = scanner.next().toUpperCase();
@@ -137,17 +133,12 @@ public abstract class Character {
 				int choiceAttack = scanner.nextInt();
 				Skill chosenAttackSkill = attackSkills.get(choiceAttack-1);
 				
-				command = new AttackCommand((SkillDecorator)chosenAttackSkill);
+				Character attackTarget = chooseTarget(opponents, team);
 				
-				command.setPlayer(this);
-				if (chosenAttackSkill.getTargetType() == TargetType.MULTIPLE) {
-					command.setTargets(opponents);
-					 
-				} else {
-					target = chooseTarget(opponents);
-					command.setTarget(target);
-				}
-				break;
+				AttackCommand attackCommand = new AttackCommand((SkillDecorator)chosenAttackSkill);
+				attackCommand.setPlayer(this);
+				attackCommand.setTarget(attackTarget);
+				return attackCommand;
 				
 			case "B":
 				int j = 1;
@@ -158,57 +149,29 @@ public abstract class Character {
 				int choiceHeal = scanner.nextInt();
 				Skill chosenHealSkill = healSkills.get(choiceHeal-1);
 				
-				command = new HealCommand((SkillDecorator)chosenHealSkill);
-				command.setPlayer(this);
-				if (chosenHealSkill.getTargetType() == TargetType.MULTIPLE) {
-					command.setTargets(team);
-				} else {
-					target = chooseTarget(opponents, team);
-					command.setTarget(target);
-				}
-				break;
+				Character healTarget = chooseTarget(opponents, team);
+				
+				HealCommand healCommand = new HealCommand((SkillDecorator)chosenHealSkill);
+				healCommand.setPlayer(this);
+				healCommand.setTarget(healTarget);
+				return healCommand;	
 		}
-		return command;
+		return null;
+		
 	}
 	
-	private Character chooseTarget(List<Character> opponents) { //helper method
-		String choice;
-		Character target = null;
-		Scanner scanner = new Scanner(System.in);
-		for (Character opponent : opponents) {
-			while (target != null) {
-				if (opponent.isAlive()) {
-					System.out.println("Do you choose " + opponent.getName() + " as your target? ");
-					choice = scanner.nextLine().toLowerCase();
-					if (choice == "yes") {
-						target = opponent;
-					}
-				}
-			}
-		}
-		scanner.close();
-		return target;
-	}
 	private Character chooseTarget(List<Character> opponents, List<Character> team) {
-		String choice;
-		Character target = null;
 		Scanner scanner = new Scanner(System.in);
-		List<Character> characters = new ArrayList<>();
-		characters.addAll(opponents);
-		characters.addAll(team);
-		for (Character character : characters) {
-			while (target != null) {
-				if (character.isAlive()) {
-					System.out.println("Do you choose " + character.getName() + " as your target? ");
-					choice = scanner.nextLine().toLowerCase();
-					if (choice == "yes") {
-						target = character;
-					}
-				}
+		System.out.println("Choose your target: ");
+		for (int i=0; i < opponents.size(); i++) {
+			Character opponent = opponents.get(i);
+			if (opponent.isAlive()) {
+				System.out.println((i+1) + ") " + opponent.getName() + 
+						" [health: " + opponent.getHealth() + "] ");
 			}
 		}
-		scanner.close();
-		return target;
+		int choiceTarget = scanner.nextInt();
+		return opponents.get(choiceTarget-1);
 	}
 	
 	protected abstract boolean attack(Character target);
