@@ -13,15 +13,15 @@ public class Wizard extends Character{
 	
 	public Wizard(String name) {
 		super(name);
-		Skill singleMagic = new Single(new AttackSkill("single magic"));
+		Skill singleMagic = new Single(new AttackSkill("magic"));
 		attackSkills.add(singleMagic);
-		Skill multipleMagic = new Multiple(new AttackSkill("multiple magic"));
+		Skill multipleMagic = new Multiple(new AttackSkill("magic"));
 		attackSkills.add(multipleMagic);
-		Skill poisonousMagic = new Single(new Poisonous(new AttackSkill("poisonous magic")));
+		Skill poisonousMagic = new Single(new Poisonous(new AttackSkill("magic")));
 		attackSkills.add(poisonousMagic);
-		Skill healingMagic = new Single(new HealSkill("haeling magic"));
+		Skill healingMagic = new Single(new HealSkill("magic"));
 		healSkills.add(healingMagic);
-		Skill healingMultipleMagic = new Multiple(new HealSkill("multiple healing magic"));
+		Skill healingMultipleMagic = new Multiple(new HealSkill("magic"));
 		healSkills.add(healingMultipleMagic);
 	}
 

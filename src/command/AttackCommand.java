@@ -6,6 +6,7 @@ import character.Character;
 import skill.AttackSkill;
 import skill.Skill;
 import skill.SkillDecorator;
+import engine.TurnInfo;
 
 public class AttackCommand extends Command {
 	private final AttackSkill skill;
@@ -29,12 +30,14 @@ public class AttackCommand extends Command {
 	        	target.takeDamage(skill.getDamage());	
 	        }
 	        skill.apply(targets);
-	        engine.notifyObservers(new Event(Event.Type.ATTACK_HIT, targets)); 
-	        //engine.notifyObservers(new Event(Event.Type.ATTACK_HIT, new TurnInfo(player, this, true, targets, damage)));
+	        for (Character target : targets) {
+	        	engine.notifyObservers(new Event(Event.Type.ATTACK_HIT,new TurnInfo(player, this, true, target, skill.getDamage())));
+	        }
 	    } else {
-	        engine.notifyObservers(new Event(Event.Type.ATTACK_DODGE, targets));
-	        //engine.notifyObservers(new Event(Event.Type.ATTACK_HIT, new TurnInfo(player, this, false, targets, 0)));
-	    }
+	    	for (Character target : targets) {
+	    		engine.notifyObservers(new Event(Event.Type.ATTACK_DODGE, new TurnInfo(player, this, false, target, 0)));
+	    		}
+	    	}
 	}
 	
 	@Override

@@ -13,15 +13,15 @@ public class Swordsman extends Character {
 	
 	public Swordsman(String name) {
 		super(name);
-		Skill singleSword = new Single(new AttackSkill("single sword"));
+		Skill singleSword = new Single(new AttackSkill("sword"));
 		attackSkills.add(singleSword);
-		Skill multipleSword = new Multiple(new AttackSkill("multiple sword"));
+		Skill multipleSword = new Multiple(new AttackSkill("sword"));
 		attackSkills.add(multipleSword);
-		Skill poisonousSword = new Single(new Poisonous(new AttackSkill("poisonous sword")));
+		Skill poisonousSword = new Single(new Poisonous(new AttackSkill("sword")));
 		attackSkills.add(poisonousSword);
-		Skill healingSword = new Single(new HealSkill("healing sword"));
+		Skill healingSword = new Single(new HealSkill("sword"));
 		healSkills.add(healingSword);
-		Skill healingSwords = new Multiple(new HealSkill("healing sowrds"));
+		Skill healingSwords = new Multiple(new HealSkill("sword"));
 		healSkills.add(healingSwords);
 	}
 	

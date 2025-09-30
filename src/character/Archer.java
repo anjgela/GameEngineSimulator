@@ -19,9 +19,9 @@ public class Archer extends Character{
 		attackSkills.add(rainingArrow);
 		Skill poisonousArrow = new Single(new Poisonous(new AttackSkill("arrow"))); //Poisonous
 		attackSkills.add(poisonousArrow);
-		Skill healingArrow = new Single(new HealSkill("healing arrow")); //
+		Skill healingArrow = new Single(new HealSkill("arrow")); //
 		healSkills.add(healingArrow);
-		Skill healingRain = new Multiple(new HealSkill("healing rain"));
+		Skill healingRain = new Multiple(new HealSkill("rain"));
 		healSkills.add(healingRain);
 	}
 
