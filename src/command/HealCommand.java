@@ -6,6 +6,7 @@ import skill.SkillDecorator;
 import character.Character;
 import engine.BattleEngine;
 import engine.Event;
+import engine.TurnInfo;
 
 public class HealCommand extends Command{
 	private final HealSkill skill;
@@ -30,18 +31,10 @@ public class HealCommand extends Command{
         	target.heal(healing);
         }
         skill.apply(targets);
-        engine.notifyObservers(new Event(Event.Type.SKILL_USED, targets));
-        //engine.notifyObservers(new Event(Event.Type.SKILL_USED, new engine.TurnInfo(player, this, true, target, healed)));
-    }
-
-    @Override
-    public String getLogMessage() {
-    	String msg = player.getName() + " uses " + skill.getName() + " on ";
         for (Character target : targets) {
-        	msg = msg + target.getName() + ", ";
+        	engine.notifyObservers(new Event(Event.Type.SKILL_USED, new TurnInfo(player, this, true, target, skill.getHealing())));
+        	}
         }
-    	return msg.substring(0, msg.length() - 2);
-    }
 }
 
  /*FIXME make attackcommand and healcommand on one target, 

@@ -39,13 +39,4 @@ public class AttackCommand extends Command {
 	    		}
 	    	}
 	}
-	
-	@Override
-    public String getLogMessage() {
-        String msg = player.getName() + " uses " + skill.getName() + " on ";
-        for (Character target : targets) {
-        	msg = msg + target.getName() + ", ";
-        }
-        return msg.substring(0, msg.length() - 2);
-    }
 }

@@ -133,7 +133,7 @@ public abstract class Character {
 				int choiceAttack = scanner.nextInt();
 				Skill chosenAttackSkill = attackSkills.get(choiceAttack-1);
 				
-				Character attackTarget = chooseTarget(opponents, team);
+				Character attackTarget = chooseTarget(opponents);
 				
 				AttackCommand attackCommand = new AttackCommand((SkillDecorator)chosenAttackSkill);
 				attackCommand.setPlayer(this);
@@ -149,7 +149,7 @@ public abstract class Character {
 				int choiceHeal = scanner.nextInt();
 				Skill chosenHealSkill = healSkills.get(choiceHeal-1);
 				
-				Character healTarget = chooseTarget(opponents, team);
+				Character healTarget = chooseTarget(team);
 				
 				HealCommand healCommand = new HealCommand((SkillDecorator)chosenHealSkill);
 				healCommand.setPlayer(this);
@@ -160,18 +160,18 @@ public abstract class Character {
 		
 	}
 	
-	private Character chooseTarget(List<Character> opponents, List<Character> team) {
+	private Character chooseTarget(List<Character> targets) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Choose your target: ");
-		for (int i=0; i < opponents.size(); i++) {
-			Character opponent = opponents.get(i);
+		for (int i=0; i < targets.size(); i++) {
+			Character opponent = targets.get(i);
 			if (opponent.isAlive()) {
 				System.out.println((i+1) + ") " + opponent.getName() + 
 						" [health: " + opponent.getHealth() + "] ");
 			}
 		}
 		int choiceTarget = scanner.nextInt();
-		return opponents.get(choiceTarget-1);
+		return targets.get(choiceTarget-1);
 	}
 	
 	protected abstract boolean attack(Character target);

@@ -30,10 +30,20 @@ public abstract class Command { //to maybe later change into AbstractCommand imp
 	public void setTargets(List<Character> characters) {
 		targets.addAll(characters);
 	}
+	
+	public String getTargets() {
+		String string = "";
+		for (int i=0; i<targets.size(); i++) {
+			string += targets.get(i).getName();
+			if (i != targets.size()-1) {
+				string += ", ";
+			}
+		}
+		return string;
+	}
 
-	public abstract void execute(BattleEngine engine); //receives BattleEngine so Command does not depend on the singleton
-		
-	public String getLogMessage() { //for logging
+	public String getName() {
 		return name;
 	}
+	public abstract void execute(BattleEngine engine); //receives BattleEngine so Command does not depend on the singleton
 }

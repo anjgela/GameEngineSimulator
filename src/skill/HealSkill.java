@@ -29,7 +29,6 @@ public class HealSkill implements Skill{
 	@Override
 	public void apply(Character target) {
 		target.heal(healing);
-		
 	}
 
 	@Override

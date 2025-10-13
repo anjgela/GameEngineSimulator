@@ -6,7 +6,6 @@ public class Single extends SkillDecorator {
 
 	public Single(Skill base) {
 		super(base);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

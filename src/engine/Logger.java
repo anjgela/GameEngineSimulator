@@ -24,7 +24,7 @@ public class Logger implements Observer{
 					break;
 				case TURN_END:
 					TurnInfo turnEndInfo = (TurnInfo) event.payload();
-					System.out.println("TURN END: " + turnEndInfo.player().getName() + " used " + turnEndInfo.command().getLogMessage());
+					System.out.println("TURN END: " + turnEndInfo.player().getName() + " used " + turnEndInfo.command().getName() + " on " + turnEndInfo.command().getTargets());
 					break;
 				case CHARACTER_DEATH:
 					Character player = (Character) event.payload();
