@@ -31,7 +31,7 @@ public abstract class CharacterState {
 			remainingTurns--;
 		}
 		else {
-			onExpire(player);
+			reset(player);
 		}
 	}
 	
@@ -39,8 +39,8 @@ public abstract class CharacterState {
 		player.setState(this);
 	}
 	
-	public void onExpire(Character player) {
-		player.setState(new Normal(ID.NORMAL, 100));
+	public static void reset(Character player) {
+		player.setState(new Normal(100));
 	}
 	
 }

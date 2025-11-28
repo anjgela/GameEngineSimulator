@@ -14,7 +14,7 @@ public class Poisonous extends SkillDecorator {
 	
 	public void apply(Character target) {
 		super.apply(target);
-		target.setState(new Poisoned(CharacterState.ID.POISONED, 3));
+		target.setState(new Poisoned(3));
 	}
 	
     public String getName() {

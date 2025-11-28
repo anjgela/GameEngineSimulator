@@ -14,8 +14,8 @@ import observer.Observer;
 public class BattleEngine implements Observable{
 	private static BattleEngine instance = null;
 	
-	private final List<Character> teamGreen;
-	private final List<Character> teamPink;
+	private final List<Character> greenTeam;
+	private final List<Character> pinkTeam;
 	public static final int MAX_PLAYERS_PER_TEAM = 3;
 	
 	private List<Observer> observers = new ArrayList<>();
@@ -28,11 +28,11 @@ public class BattleEngine implements Observable{
 	private String winners;
 	
 	private BattleEngine(List<Character> green, List<Character> pink) {
-		teamGreen = green;
-		teamPink = pink;
+		greenTeam = green;
+		pinkTeam = pink;
 		//populate order
-		turnOrder.put("green", teamGreen);
-		turnOrder.put("pink", teamPink);
+		turnOrder.put("green", greenTeam);
+		turnOrder.put("pink", pinkTeam);
 		attach(new Logger());	//default logger
 	}
 	
@@ -74,23 +74,23 @@ public class BattleEngine implements Observable{
 			}
 			
 			Command command;
-			if (teamGreen.contains(player)) {
+			if (greenTeam.contains(player)) {
 				notifyObservers(new Event(Event.Type.TURN_START_GREEN, player));
-				command = player.chooseAction(teamPink, teamGreen);
+				command = player.chooseAction(pinkTeam, greenTeam);
 			} else {
 				notifyObservers(new Event(Event.Type.TURN_START_PINK, player));
-				command = player.chooseAction(teamGreen, teamPink);
+				command = player.chooseAction(greenTeam, pinkTeam);
 			}
 			
 			command.execute(this);
 			//add notifyObserver for various command types (ATTACK HIT, ATTACK DODGE, HEAL, ..
 			
-			for (Character green : teamGreen) {
+			for (Character green : greenTeam) {
 				if (green.isAlive()) {
 					green.regeneratePowerStorage();
 				}
 			}
-			for (Character pink : teamPink) {
+			for (Character pink : pinkTeam) {
 				if (pink.isAlive()) {
 					pink.regeneratePowerStorage();
 				}
@@ -134,23 +134,23 @@ public class BattleEngine implements Observable{
 	//helper methods
 	private boolean isBattleOver() {
 		int deaths = 0;
-		for (Character character : teamGreen) {
+		for (Character character : greenTeam) {
 			if (!character.isAlive()) {
 				deaths++;
 			}
 		}
-		if (deaths == teamGreen.size()) {
+		if (deaths == greenTeam.size()) {
 			winners = "team Pink";
 		}
 		else {
 			deaths = 0;
-			for (Character character : teamPink) {
+			for (Character character : pinkTeam) {
 				if (!character.isAlive()) {
 					deaths++;
 				}
 			}
 		}
-		if (deaths == teamPink.size() ) {
+		if (deaths == pinkTeam.size() ) {
 			winners = "team Green";
 			return true;
 		}
@@ -192,15 +192,15 @@ public class BattleEngine implements Observable{
 	}
 	
 	private void checkDeaths() {
-		turnOrder.put("green", teamGreen.stream().filter(Character::isAlive).toList());
-		turnOrder.put("pink", teamPink.stream().filter(Character::isAlive).toList());
+		turnOrder.put("green", greenTeam.stream().filter(Character::isAlive).toList());
+		turnOrder.put("pink", pinkTeam.stream().filter(Character::isAlive).toList());
 		
-		for (Character character : teamGreen) {
+		for (Character character : greenTeam) {
 			if (!character.isAlive()) {				
 				notifyObservers(new Event(Event.Type.CHARACTER_DEATH, character));
 			}
 		}
-		for (Character character : teamPink) {
+		for (Character character : pinkTeam) {
 			if (!character.isAlive()) {				
 				notifyObservers(new Event(Event.Type.CHARACTER_DEATH, character));
 			}

@@ -26,9 +26,6 @@ public class AttackCommand extends Command {
 			return;
 		}
 	    if (engine.attackSucceds(player, targets)) {
-	        for (Character target : targets) { 
-	        	target.takeDamage(skill.getDamage());	
-	        }
 	        skill.apply(targets);
 	        for (Character target : targets) {
 	        	engine.notifyObservers(new Event(Event.Type.ATTACK_HIT,new TurnInfo(player, this, true, target, skill.getDamage())));

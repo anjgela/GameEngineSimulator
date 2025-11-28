@@ -22,7 +22,7 @@ public abstract class Character {
 	
 	protected int powerStorage;
 	public static final int MAX_POWER_STORAGE = 30;
-	private final int powerRegenerationPowerPerTurn = 5;	//TODO maybe move to state
+	private final int powerRegenerationPerTurn = 5;	//TODO maybe move to state
 	
 	protected List<Skill> attackSkills;
 	protected List<Skill> healSkills;
@@ -52,10 +52,11 @@ public abstract class Character {
 	}
 	
 	public void takeDamage(int damage) {
-		health -= damage;
+		health = Math.max(0, health -=damage);
+		/*health -= damage;
 		if (health < 0) {
 			health = 0;
-		}
+		}*/
 	}
 	
 	public void heal(int energy) {
@@ -79,7 +80,7 @@ public abstract class Character {
 	}
 	
 	public void regeneratePowerStorage() {
-		powerStorage = Math.min(MAX_POWER_STORAGE, powerStorage += powerRegenerationPowerPerTurn);
+		powerStorage = Math.min(MAX_POWER_STORAGE, powerStorage += powerRegenerationPerTurn);
 	}
 	
 	public List<Skill> getAttackSKills() {

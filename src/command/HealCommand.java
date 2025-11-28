@@ -27,9 +27,6 @@ public class HealCommand extends Command{
         }
 
         int healing = skill.getHealing();
-        for (Character target : targets) {
-        	target.heal(healing);
-        }
         skill.apply(targets);
         for (Character target : targets) {
         	engine.notifyObservers(new Event(Event.Type.SKILL_USED, new TurnInfo(player, this, true, target, skill.getHealing())));

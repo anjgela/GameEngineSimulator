@@ -4,12 +4,12 @@ import java.util.Random;
 import character.Character;
 
 public class Enhanced extends CharacterState {
-	private CharacterState.ID id = CharacterState.ID.ENHANCED;
+	private static CharacterState.ID id = CharacterState.ID.ENHANCED;
 	private static final float HIT_CHANCE = 0.7F;
 	private static final int POWER_INCREASE = 3;
-	private static final float DODGE_CHANCE = 0.7F;
+	private static final float DODGE_CHANCE = 0.4F;
 	
-	public Enhanced(ID id, int duration) {
+	public Enhanced(int duration) {
 		super(id, duration);
 		}
 	

@@ -5,16 +5,23 @@ import character.Character;
 import observer.Observer;
 
 public class Logger implements Observer{
-
+	
+	private Event received = null;
+	
+	public Event getReceived() {
+		return received;
+	}
+	
 	@Override
 	public void update(Object object) {
 		if (object instanceof Event) {
 			Event event = (Event) object;
+			received = event;
 			switch (event.type()) {
-				case BATTLE_START: 
+				case BATTLE_START:		
 					System.out.println("START FIGHTING!");
 					break;
-				case TURN_START_GREEN:
+				case TURN_START_GREEN:				
 					Character greenPlayer = (Character) event.payload();
 					System.out.println("TEAM GREEN TURN: " + greenPlayer.getName() + " playing.");
 					break;
