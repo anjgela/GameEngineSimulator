@@ -20,10 +20,11 @@ public class AttackSkill implements Skill{
 	public TargetType getTargetType() {
 		return TargetType.SINGLE;
 	}
-	
+
 	public int getDamage() {
 		return damage;
 	}
+	
 	
 	@Override
 	public void apply(Character target) {
