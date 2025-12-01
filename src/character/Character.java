@@ -174,11 +174,4 @@ public abstract class Character {
 		int choiceTarget = scanner.nextInt();
 		return targets.get(choiceTarget-1);
 	}
-	
-	protected abstract boolean attack(Character target);
-	protected abstract boolean attack(List<Character> targets);
-	
-	protected abstract boolean heal(Character target);
-	protected abstract boolean heal(List<Character> targets);
-	
 }

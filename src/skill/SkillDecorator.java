@@ -27,11 +27,11 @@ public abstract class SkillDecorator implements Skill {
 	    return current;
 	}
 	
-	public void apply(Character target) {
-		base.apply(target);
+	public void apply(Character player, Character target) {
+		base.apply(player, target);
 	}
-	public void apply(List<Character> targets) {
-		base.apply(targets);
+	public void apply(Character player, List<Character> targets) {
+		base.apply(player, targets);
 	}
 	
 	

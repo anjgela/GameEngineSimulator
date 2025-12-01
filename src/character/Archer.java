@@ -24,28 +24,4 @@ public class Archer extends Character{
 		Skill healingRain = new Multiple(new HealSkill("rain"));
 		healSkills.add(healingRain);
 	}
-
-	@Override
-	protected boolean attack(Character target) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean attack(List<Character> targets) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean heal(Character target) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean heal(List<Character> targets) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

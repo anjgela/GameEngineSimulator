@@ -29,7 +29,7 @@ public class AttackCommand extends Command {
 		player.usePowerStorage(cost);
 		
 	    if (engine.attackSucceds(player, targets)) {
-	        skill.apply(targets);
+	        skill.apply(player, targets);
 	        for (Character target : targets) {
 	        	engine.notifyObservers(new Event(Event.Type.ATTACK_HIT,new TurnInfo(player, this, true, target, findBaseDamage(this.skill))));
 	        }

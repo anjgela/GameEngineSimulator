@@ -24,22 +24,4 @@ public class Swordsman extends Character {
 		Skill healingSwords = new Multiple(new HealSkill("sword"));
 		healSkills.add(healingSwords);
 	}
-	
-	@Override
- 	protected boolean attack(Character target) {
-		return false;
- 		}
-	@Override
- 	protected boolean attack(List<Character> targets) {
-		return false;
- 		}
-	
- 	@Override
-	protected boolean heal(Character target) {
-		return false;
- 	}
- 	@Override
-	protected boolean heal(List<Character> targets) {
-		return false;
- 	}
 }

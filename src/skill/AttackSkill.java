@@ -27,13 +27,13 @@ public class AttackSkill implements Skill{
 	
 	
 	@Override
-	public void apply(Character target) {
+	public void apply(Character player, Character target) {
 		target.takeDamage(damage);
 		
 	}
 
 	@Override
-	public void apply(List<Character> targets) {
+	public void apply(Character player, List<Character> targets) {
 		for (Character target : targets) {
 			target.takeDamage(damage);
 		}

@@ -24,29 +24,4 @@ public class Wizard extends Character{
 		Skill healingMultipleMagic = new Multiple(new HealSkill("magic"));
 		healSkills.add(healingMultipleMagic);
 	}
-
-	@Override
-	protected boolean attack(Character target) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean attack(List<Character> targets) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean heal(Character target) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean heal(List<Character> targets) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 }

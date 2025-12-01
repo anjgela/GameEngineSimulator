@@ -27,12 +27,12 @@ public class HealSkill implements Skill{
 	}
 
 	@Override
-	public void apply(Character target) {
+	public void apply(Character player, Character target) {
 		target.heal(healing);
 	}
 
 	@Override
-	public void apply(List<Character> targets) {
+	public void apply(Character player, List<Character> targets) {
 		for (Character target : targets) {
 			target.heal(healing);
 		}
