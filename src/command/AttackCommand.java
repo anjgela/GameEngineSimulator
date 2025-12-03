@@ -19,8 +19,7 @@ public class AttackCommand extends Command {
 	public void execute(BattleEngine engine) { 
 		int cost = Skill.POWER;
 		//if to check if skill is single or multiple. if multiple : cost = POWER *3/2
-		if (player.getpowerStorage() < cost) {
-			player.restorePowerStorage(cost);
+		if (player.getPowerStorage() < cost) {
 			engine.notifyObservers(new Event(Event.Type.SKILL_FAILED, 
 					player.getName() + "lacks power for " + skill.getName()));
 			return;

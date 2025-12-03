@@ -24,10 +24,12 @@ public class Logger implements Observer{
 				case TURN_START_GREEN:				
 					Character greenPlayer = (Character) event.payload();
 					System.out.println("TEAM GREEN TURN: " + greenPlayer.getName() + " playing.");
+					System.out.println("health[" + greenPlayer.getHealth() + "]" + " ; energy[" + greenPlayer.getPowerStorage() + "]");
 					break;
 				case TURN_START_PINK:
 					Character pinkPlayer = (Character) event.payload();
 					System.out.println("TEAM PINK TURN: " + pinkPlayer.getName() + " playing.");
+					System.out.println("health[" + pinkPlayer.getHealth() + "]" + " ; energy[" + pinkPlayer.getPowerStorage() + "]");
 					break;
 				case TURN_END:
 					TurnInfo turnEndInfo = (TurnInfo) event.payload();

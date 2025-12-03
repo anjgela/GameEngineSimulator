@@ -34,6 +34,26 @@ public class CharacterTest {
 		
 		assertEquals(damagedHealth+energy, player.getHealth());		
 	}
+
+	@Test
+	public void usePowerStorageTest() {
+		int cost = 12;
+		player.usePowerStorage(cost);
+		
+		assertEquals(Character.MAX_POWER_STORAGE-cost, player.getPowerStorage());
+	}
+	
+	@Test
+	public void regeneratePowerStorageTest() {
+		int cost = 12;
+		player.usePowerStorage(cost);
+		int currentPower = player.getPowerStorage();
+		assertEquals(Character.MAX_POWER_STORAGE-cost, currentPower);
+		
+		player.regeneratePowerStorage();
+		
+		assertEquals(currentPower+Character.POWER_STORAGE_REGENERATION_PER_TURN, player.getPowerStorage());
+	}
 	
 	@Test 
 	public void isAliveFalseTest() {

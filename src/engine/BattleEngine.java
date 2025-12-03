@@ -83,7 +83,7 @@ public class BattleEngine implements Observable{
 			}
 			
 			command.execute(this);
-			//add notifyObserver for various command types (ATTACK HIT, ATTACK DODGE, HEAL, ..
+			
 			
 			for (Character green : greenTeam) {
 				if (green.isAlive()) {

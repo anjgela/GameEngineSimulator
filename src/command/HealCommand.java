@@ -19,7 +19,7 @@ public class HealCommand extends Command{
 	@Override
     public void execute(BattleEngine engine) {
         int cost = Skill.POWER;
-        if (player.getpowerStorage() < 0) {
+        if (player.getPowerStorage() < 0) {
         	player.restorePowerStorage(cost);
             engine.notifyObservers(new Event(Event.Type.SKILL_FAILED, 
                     player.getName() + " lacks power for " + skill.getName()));
