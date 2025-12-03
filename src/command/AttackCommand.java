@@ -11,7 +11,7 @@ import skill.AttackSkill;
 public class AttackCommand extends Command {
 	private final Skill skill;
 	
-	public AttackCommand(SkillDecorator skill) {
+	public AttackCommand(Skill skill) {
 		super("Attack: " + skill.getName());
 		this.skill = skill;
 	}

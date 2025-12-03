@@ -6,13 +6,21 @@ import character.Character;
 public abstract class CharacterState {
 
 	public static enum ID {NORMAL, SLOWED, POISONED, ENHANCED};
+	private ID id;
 	protected int remainingTurns;
 	
 	protected CharacterState(ID id, int duration) {
 		this.remainingTurns = duration;
+		this.id = id;
 		}
+	
 	protected CharacterState(ID id) {
 		remainingTurns = 100;
+		this.id = id;
+	}
+	
+	public ID getID() {
+		return id;
 	}
 
 	public abstract float getHitChance();

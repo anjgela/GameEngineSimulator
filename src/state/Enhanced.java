@@ -7,7 +7,7 @@ public class Enhanced extends CharacterState {
 	private static final CharacterState.ID id = CharacterState.ID.ENHANCED;
 	private static final float HIT_CHANCE = 0.7F;
 	private static final float DODGE_CHANCE = 0.4F;
-	private static final int POWER_INCREASE = 3;
+	private static final int POWER_INCREASE = 10;
 	
 	public Enhanced(int duration) {
 		super(id, duration);

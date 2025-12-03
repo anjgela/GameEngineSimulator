@@ -1,8 +1,5 @@
 package character;
 
-
-import java.util.List;
-
 import skill.Skill;
 import skill.AttackSkill;
 import skill.HealSkill;

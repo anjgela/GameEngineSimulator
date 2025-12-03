@@ -25,5 +25,6 @@ public class Slowed extends CharacterState {
 
 	//chances of hitting target lower
 	//chances of defense lower
+	//gets triggered when target has health<=30 and gets hit by player in an enhanced state
 	
 }

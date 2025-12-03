@@ -30,6 +30,7 @@ public abstract class SkillDecorator implements Skill {
 	public void apply(Character player, Character target) {
 		base.apply(player, target);
 	}
+	
 	public void apply(Character player, List<Character> targets) {
 		base.apply(player, targets);
 	}

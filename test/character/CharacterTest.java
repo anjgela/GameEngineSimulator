@@ -22,6 +22,14 @@ public class CharacterTest {
 		assertEquals( Character.MAX_HEALTH-damage, player.getHealth());
 	}
 	
+	@Test 
+	public void deathDamageTest() {
+		player.takeDamage(Character.MAX_HEALTH+30);
+		
+		assertEquals(0, player.getHealth());
+		assertFalse(player.isAlive());
+	}
+	
 	@Test
 	public void healTest() {
 		int damage = 90;
@@ -33,6 +41,15 @@ public class CharacterTest {
 		player.heal(energy);
 		
 		assertEquals(damagedHealth+energy, player.getHealth());		
+	}
+	
+	@Test 
+	public void healOverMaxHealthTest() {
+		player.takeDamage(30);
+		
+		player.heal(1000);
+		
+		assertEquals(Character.MAX_HEALTH, player.getHealth());
 	}
 
 	@Test
@@ -56,14 +73,14 @@ public class CharacterTest {
 	}
 	
 	@Test 
-	public void isAliveFalseTest() {
+	public void isAliveTrueTest() {
 		player.takeDamage(10);
 		
 		assertTrue(player.isAlive());
 	}
 	
 	@Test
-	public void isAliveTrueTest() {
+	public void isAliveFalseTest() {
 		player.takeDamage(Character.MAX_HEALTH);
 		
 		assertFalse(player.isAlive());

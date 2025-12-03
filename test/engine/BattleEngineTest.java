@@ -83,52 +83,33 @@ public class BattleEngineTest {
 		assertFalse(result);
 	}
 
-public class StubState extends CharacterState {
-	private float testHitChance;
-	private float testDodgeChance;
+//stubs
+	public class StubState extends CharacterState {
+		private float testHitChance;
+		private float testDodgeChance;
+		
+		public StubState() {
+	        super(ID.NORMAL, 999); 
+	        this.testHitChance = 0.6f;
+	        this.testDodgeChance = 0.3f;
+	    }
 	
-	public StubState() {
-        super(ID.NORMAL, 999); 
-        this.testHitChance = 0.6f;
-        this.testDodgeChance = 0.3f;
-    }
-
-    public void setHitChance(float chance) {
-        this.testHitChance = chance;
-    }
-
-    public void setDodgeChance(float chance) {
-        this.testDodgeChance = chance;
-    }
-
-    @Override
-    public float getHitChance() {
-        return testHitChance;
-    }
-
-    @Override
-    public float getDodgeChance() {
-        return testDodgeChance;
-    }
+	    public void setHitChance(float chance) {
+	        this.testHitChance = chance;
+	    }
+	
+	    public void setDodgeChance(float chance) {
+	        this.testDodgeChance = chance;
+	    }
+	
+	    @Override
+	    public float getHitChance() {
+	        return testHitChance;
+	    }
+	
+	    @Override
+	    public float getDodgeChance() {
+	        return testDodgeChance;
+	    }
+	}
 }
-
-}
-	/*
-	public void setUp() {
-		engine = BattleEngine.getInstance(null, null);
-	}
-	@Test
-	public void testStart() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAttackSuccedsCharacterCharacter() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAttackSuccedsCharacterListOfCharacter() {
-		fail("Not yet implemented");
-	}*/
-
