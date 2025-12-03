@@ -54,7 +54,7 @@ public class Logger implements Observer{
 				case SKILL_FAILED:
 					System.out.println("Skill failed: " + event.payload());
 					break;
-				case SKILL_USED:
+				case HEAL:
 					TurnInfo skillUsedInfo = (TurnInfo) event.payload();
 					System.out.println(skillUsedInfo.player().getName() + " healed " + skillUsedInfo.target().getName() + " for " + skillUsedInfo.value());
 					break;

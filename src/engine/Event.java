@@ -10,6 +10,6 @@ public record Event(Type type, Object payload) {
 		BATTLE_OVER, 
 		ATTACK_HIT, 
 		ATTACK_DODGE, 
-		SKILL_USED, 
+		HEAL, 
 		SKILL_FAILED}
 }

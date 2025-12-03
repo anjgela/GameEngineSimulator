@@ -14,7 +14,7 @@ public class AttackCommandTest {
 	private BattleEngine engine;
 
 	@Test
-	public void test() {
+	public void executeTest() {
 		Character player = new Swordsman("player");
 		Character target = new Archer("target");
 		engine = BattleEngine.getInstance(null, null);
