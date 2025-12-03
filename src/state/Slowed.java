@@ -5,16 +5,12 @@ import java.util.Random;
 import character.Character;
 
 public class Slowed extends CharacterState {
-	private static CharacterState.ID id = CharacterState.ID.SLOWED;
+	private static final CharacterState.ID id = CharacterState.ID.SLOWED;
 	private static final float HIT_CHANCE = 0.5F;
 	private static final float DODGE_CHANCE = 0.2F;
 	
 	public Slowed(int duration) {
 		super(id, duration);
-	}
-	
-	public Slowed(ID id) {
-		super(id);
 	}
 	
 	@Override
@@ -26,7 +22,7 @@ public class Slowed extends CharacterState {
 	public float getDodgeChance() {
 		return DODGE_CHANCE;
 	}
-	
+
 	//chances of hitting target lower
 	//chances of defense lower
 	

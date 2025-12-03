@@ -36,7 +36,7 @@ public abstract class Character {
 		powerStorage = MAX_POWER_STORAGE;
 		attackSkills = new ArrayList<>();
 		healSkills = new ArrayList<>();
-		state = new Normal(CharacterState.ID.NORMAL);
+		state = new Normal();
 	}
 	
 	public String getName() {
