@@ -6,31 +6,33 @@ import character.Character;
 public abstract class CharacterState {
 
 	public static enum ID {NORMAL, SLOWED, POISONED, ENHANCED};
-	protected final ID id;
+	private ID id;
 	protected int remainingTurns;
 	
 	protected CharacterState(ID id, int duration) {
-		this.id = id;
 		this.remainingTurns = duration;
+		this.id = id;
 		}
+	
 	protected CharacterState(ID id) {
+		remainingTurns = 100;
 		this.id = id;
 	}
+	
 	public ID getID() {
 		return id;
 	}
-	
+
 	public abstract float getHitChance();
 	public abstract float getDodgeChance();
-	
-	
+		
 	public void onTurnStart(Character player) {
 		if (remainingTurns > 0) {
 			applyState(player);
 			remainingTurns--;
 		}
 		else {
-			onExpire(player);
+			reset(player);
 		}
 	}
 	
@@ -38,9 +40,10 @@ public abstract class CharacterState {
 		player.setState(this);
 	}
 	
-	public void onExpire(Character player) {
-		player.setState(new Normal(ID.NORMAL, 100));
+	public static void reset(Character player) {
+		player.setState(new Normal(100));
 	}
+	
 	
 }
 

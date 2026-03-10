@@ -5,18 +5,15 @@ import java.util.Random;
 import character.Character;
 
 public class Poisoned extends CharacterState {
-	private CharacterState.ID id = CharacterState.ID.POISONED;
+	private static final CharacterState.ID id = CharacterState.ID.POISONED;
 	private static final float HIT_CHANCE = 0.5F;
-	private static final int POWER_DECREASE = 3;
-	private static final float DODGE_CHANCE = 0.5F;
+	private static final float DODGE_CHANCE = 0.2F;
+	private static final int POWER_DECREASE = 10;
 	
-	public Poisoned(ID id, int duration) {
+	public Poisoned(int duration) {
 		super(id, duration);
 	}
-	
-	public Poisoned(ID id) {
-		super(id);
-	}
+
 	@Override
 	public float getHitChance() {
 		return HIT_CHANCE;
@@ -27,7 +24,7 @@ public class Poisoned extends CharacterState {
 		return DODGE_CHANCE;
 	}
 	
-	//attack power lowers
+	//attack damage to other lowers
 	//chances of defense lower 
 
 }

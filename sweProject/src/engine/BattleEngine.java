@@ -3,6 +3,8 @@ package engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 import character.Character;
 import command.Command;
@@ -11,23 +13,31 @@ import observer.Observer;
 
 public class BattleEngine implements Observable{
 	private static BattleEngine instance = null;
-	private final List<Character> teamGreen;
-	private final List<Character> teamPink;
+	
+	private final List<Character> greenTeam;
+	private final List<Character> pinkTeam;
+	public static final int MAX_PLAYERS_PER_TEAM = 3;
+	
 	private List<Observer> observers = new ArrayList<>();
-	private int currentTurnIndex;
-	private final List<Character> turnOrder = new ArrayList<>();
-	private List<Character> winners = new ArrayList<>();
+	
+	private String currentTeam = "green";
+	private int currentGreenIndex = 0;
+	private int currentPinkIndex = 0;
+	private Map<String, List<Character>> turnOrder = new LinkedHashMap<>();
+	
+	private String winners;
 	
 	private BattleEngine(List<Character> green, List<Character> pink) {
-		teamGreen = green;
-		teamPink = pink;
-		turnOrder.addAll(teamPink);	//populate order
-		turnOrder.addAll(teamGreen);
+		greenTeam = green;
+		pinkTeam = pink;
+		//populate order
+		turnOrder.put("green", greenTeam);
+		turnOrder.put("pink", pinkTeam);
 		attach(new Logger());	//default logger
 	}
 	
 	//singleton
-	public BattleEngine getInstance(List<Character> green, List<Character> pink) {
+	public static BattleEngine getInstance(List<Character> green, List<Character> pink) {
 		if (instance == null) {
 			instance = new BattleEngine(green, pink);
 		}
@@ -46,9 +56,12 @@ public class BattleEngine implements Observable{
 	}
 	
 	@Override
-	public void notifyObservers(Event event) {
-		for (Observer observer: observers) {
-			observer.update(event);
+	public void notifyObservers(Object object) {
+		if (object instanceof Event) {
+			Event event = (Event) object;
+			for (Observer observer: observers) {
+				observer.update(event);
+			}
 		}
 	}
 	
@@ -59,26 +72,39 @@ public class BattleEngine implements Observable{
 			if (player == null) {
 				break;
 			}
-			Command command = new Command();
-			if (teamGreen.contains(player)) {
-				command = player.chooseAction(teamPink, teamGreen);
+			
+			Command command;
+			if (greenTeam.contains(player)) {
+				notifyObservers(new Event(Event.Type.TURN_START_GREEN, player));
+				command = player.chooseAction(pinkTeam, greenTeam);
 			} else {
-				command = player.chooseAction(teamGreen, teamPink);
+				notifyObservers(new Event(Event.Type.TURN_START_PINK, player));
+				command = player.chooseAction(greenTeam, pinkTeam);
 			}
 			
 			command.execute(this);
 			
-			notifyObservers(new Event(Event.Type.TURN_END, new TurnInfo(player, command)));
+			
+			for (Character green : greenTeam) {
+				if (green.isAlive()) {
+					green.regeneratePowerStorage();
+				}
+			}
+			for (Character pink : pinkTeam) {
+				if (pink.isAlive()) {
+					pink.regeneratePowerStorage();
+				}
+			}
+			
+			notifyObservers(new Event(Event.Type.TURN_END, new TurnInfo(player, command, true, null, 0)));
 			
 			checkDeaths(); //death management
 		}
-		System.out.println("WINNING TEAM: ");
-		for (Character winner : winners) {
-			System.out.print(winner.getName() + " ");
-		}
 		
+		notifyObservers(new Event(Event.Type.BATTLE_OVER, winners)); //winners computed in .isBattleOver()
 	}
 	
+	//probabilistic logic
 	public boolean attackSucceds(Character player, Character target) {
 		float hitChance = player.getState().getHitChance();
 		float dodgeChance = target.getState().getDodgeChance();
@@ -106,58 +132,78 @@ public class BattleEngine implements Observable{
 	}
 
 	//helper methods
-	
 	private boolean isBattleOver() {
 		int deaths = 0;
-		for (Character character : teamGreen) {
+		for (Character character : greenTeam) {
 			if (!character.isAlive()) {
 				deaths++;
 			}
 		}
-		if (deaths == teamGreen.size()) {
-			winners = teamPink;
-			return true;
+		if (deaths == greenTeam.size()) {
+			winners = "team Pink";
 		}
 		else {
 			deaths = 0;
-			for (Character character : teamPink) {
+			for (Character character : pinkTeam) {
 				if (!character.isAlive()) {
 					deaths++;
 				}
 			}
 		}
-		if (deaths == teamPink.size() ) {
-			winners = teamGreen;
+		if (deaths == pinkTeam.size() ) {
+			winners = "team Green";
 			return true;
 		}
 		return false;
 	}
 
 	private Character nextPlayerAlive() {
-		int checked = 0;
-		while (checked < turnOrder.size()) {
-			Character character = turnOrder.get(currentTurnIndex);
-			currentTurnIndex = (currentTurnIndex +1) % turnOrder.size(); //cycle
-			checked ++;
-			if (character.isAlive()) {
-				return character;
+
+		List<Character> greenAlive = new ArrayList<>();
+		for (Character greenCharacter: turnOrder.get("green")) {
+			if (greenCharacter.isAlive()) {
+				greenAlive.add(greenCharacter);
 			}
 		}
-		return null;
+
+		List<Character> pinkAlive = new ArrayList<>();
+		for (Character pinkCharacter: turnOrder.get("pink")) {
+			if (pinkCharacter.isAlive()) {
+				pinkAlive.add(pinkCharacter);
+			}
+		}
+		
+		if (greenAlive.isEmpty() || pinkAlive.isEmpty()) {
+			return null;
+		}
+		
+		Character next;
+		if (currentTeam == "green") {
+			next = turnOrder.get("green").get(currentGreenIndex);
+			currentGreenIndex = (currentGreenIndex+1) % greenAlive.size();
+			currentTeam = "pink";
+		}
+		else {
+			next = turnOrder.get("pink").get(currentPinkIndex);
+			currentPinkIndex = (currentPinkIndex+1) % pinkAlive.size();
+			currentTeam = "green";
+		}
+		return next;
 	}
 	
 	private void checkDeaths() {
-		for (Character character : teamGreen) {
-			if (!character.isAlive()) {
+		turnOrder.put("green", greenTeam.stream().filter(Character::isAlive).toList());
+		turnOrder.put("pink", pinkTeam.stream().filter(Character::isAlive).toList());
+		
+		for (Character character : greenTeam) {
+			if (!character.isAlive()) {				
 				notifyObservers(new Event(Event.Type.CHARACTER_DEATH, character));
 			}
 		}
-		for (Character character : teamPink) {
-			if (!character.isAlive()) {
+		for (Character character : pinkTeam) {
+			if (!character.isAlive()) {				
 				notifyObservers(new Event(Event.Type.CHARACTER_DEATH, character));
 			}
-		} //FIXME MAYBE REMOVE THE DEATH CHARACTERS FROM TURNORDER AND ADJUST TURNATION IN START
+		}
 	}
-	
-	
 }

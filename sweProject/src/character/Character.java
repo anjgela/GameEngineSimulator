@@ -1,32 +1,48 @@
 package character;
+
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+
 import state.CharacterState; 
+import state.Normal;
 import command.Command;
 import command.AttackCommand;
 import command.HealCommand;
 import skill.Skill;
+import skill.AttackSkill;
+import skill.HealSkill;
+import skill.SkillDecorator;
 
 public abstract class Character {
 	protected String name;
+	
 	protected int health;
 	public static final int MAX_HEALTH = 100;
+	
 	protected int powerStorage;
-	protected static final int MAX_POWER_STORAGE = 30;
+	public static final int MAX_POWER_STORAGE = 30;
+	public static final int POWER_STORAGE_REGENERATION_PER_TURN = 5;	//TODO maybe move to state
+	
 	protected List<Skill> attackSkills;
 	protected List<Skill> healSkills;
 	protected Skill currentSkill;
+	
 	protected CharacterState state;
 	
-	public Character() {
+	public Character(String name) {
+		this.name = name;
 		health = MAX_HEALTH;
 		powerStorage = MAX_POWER_STORAGE;
+		attackSkills = new ArrayList<>();
+		healSkills = new ArrayList<>();
+		state = new Normal();
 	}
 	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String newName) {
 		name = newName;
 	}
@@ -35,9 +51,54 @@ public abstract class Character {
 		return health;
 	}
 	
+	public void takeDamage(int damage) {
+		health = Math.max(0, health -=damage);
+	}
+	
+	public void heal(int energy) {
+		health = Math.min(MAX_HEALTH, health += energy);
+	}
+	
+	public int getPowerStorage() {
+		return powerStorage;
+	}
+	
+	public boolean usePowerStorage(int cost) {
+		if (powerStorage >= cost) {
+			powerStorage -= cost;
+			return true;
+		}
+		return false;
+	}
+	
+	public void restorePowerStorage(int power) {
+		powerStorage = Math.min(MAX_POWER_STORAGE, powerStorage+=power);
+	}
+	
+	public void regeneratePowerStorage() {
+		powerStorage = Math.min(MAX_POWER_STORAGE, powerStorage += POWER_STORAGE_REGENERATION_PER_TURN);
+	}
+	
+	public List<Skill> getAttackSkills() {
+		return List.copyOf(attackSkills);
+	}
+	
+	public void addAttackSkill(AttackSkill skill) {
+		attackSkills.add(skill);
+	}
+	
+	public List<Skill> getHealSkills() {
+		return List.copyOf(healSkills);
+	}
+	
+	public void addHealSkill(HealSkill skill) {
+		healSkills.add(skill);
+	}
+	
 	public CharacterState getState() {
 		return state;
 	}
+	
 	public void setState(CharacterState newState) {
 		state = newState;
 	}
@@ -49,99 +110,64 @@ public abstract class Character {
 	public Skill getCurrentSkill() {
 		return currentSkill;
 	}
-	public void takeDamage(int damage) {
-		health -= damage;
-	}
-	
-	protected void heal(int energy) {
-		health += energy;
-	}
 	
 	public boolean isAlive() {
 		return health > 0;
 	}
 	
 	public Command chooseAction(List<Character> opponents, List<Character> team) {
-		Command command = new Command();
-		command.setPlayer(this);
-		Character target = null;
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Choose action: A) Attack  B) Heal");
+		System.out.println("Choose your action: A) Attack  B) Heal");
 		String commandType = scanner.next().toUpperCase();
+		
 		switch (commandType) {
 			case "A":
-				for (Skill attackSkill : attackSkills) {
-					int i = 1;
+				int i = 1;
+				for (Skill attackSkill : attackSkills) {					
 					System.out.print(i + ") " + attackSkill.getName() + " ");
+					i++;
 				}
-				int attackSkill = scanner.nextInt(); //1) Single 2) Multiple 3) Poisonous
-				command = new AttackCommand(attackSkill);
-				if (attackSkill != 2) {
-					 target = chooseTarget(opponents);
-					 command.setTarget(target);
-				}
-				command.setTarget(opponents);
-				break;
+				int choiceAttack = scanner.nextInt();
+				Skill chosenAttackSkill = attackSkills.get(choiceAttack-1);
+				
+				Character attackTarget = chooseTarget(opponents);
+				
+				AttackCommand attackCommand = new AttackCommand((SkillDecorator)chosenAttackSkill);
+				attackCommand.setPlayer(this);
+				attackCommand.setTarget(attackTarget);
+				return attackCommand;
 				
 			case "B":
+				int j = 1;
 				for (Skill healSkill : healSkills) {
-					int i = 1;
-					System.out.print(i + ")" + healSkill.getName() + " ");
+					System.out.print(j + ")" + healSkill.getName() + " ");
+					j++;
 				}
-				int healSkill = scanner.nextInt();
-				command = new HealCommand(healSkill);
-				target = chooseTarget(opponents, team);
-				command.setTarget(target);
-				break;
+				int choiceHeal = scanner.nextInt();
+				Skill chosenHealSkill = healSkills.get(choiceHeal-1);
+				
+				Character healTarget = chooseTarget(team);
+				
+				HealCommand healCommand = new HealCommand((SkillDecorator)chosenHealSkill);
+				healCommand.setPlayer(this);
+				healCommand.setTarget(healTarget);
+				return healCommand;	
 		}
-		scanner.close();
-		return command;
+		return null;
+		
 	}
 	
-	private Character chooseTarget(List<Character> opponents) { //helper method
-		String choice;
-		Character target = null;
+	private Character chooseTarget(List<Character> targets) {
 		Scanner scanner = new Scanner(System.in);
-		for (Character opponent : opponents) {
-			while (target != null) {
-				if (opponent.isAlive()) {
-					System.out.println("Do you choose " + opponent.getName() + " as your target? ");
-					choice = scanner.nextLine().toLowerCase();
-					if (choice == "yes") {
-						target = opponent;
-					}
-				}
+		System.out.println("Choose your target: ");
+		for (int i=0; i < targets.size(); i++) {
+			Character opponent = targets.get(i);
+			if (opponent.isAlive()) {
+				System.out.println((i+1) + ") " + opponent.getName() + 
+						" [health: " + opponent.getHealth() + "] ");
 			}
 		}
-		scanner.close();
-		return target;
+		int choiceTarget = scanner.nextInt();
+		return targets.get(choiceTarget-1);
 	}
-	private Character chooseTarget(List<Character> opponents, List<Character> team) {
-		String choice;
-		Character target = null;
-		Scanner scanner = new Scanner(System.in);
-		List<Character> characters = new ArrayList<>();
-		characters.addAll(opponents);
-		characters.addAll(team);
-		for (Character character : characters) {
-			while (target != null) {
-				if (character.isAlive()) {
-					System.out.println("Do you choose " + character.getName() + " as your target? ");
-					choice = scanner.nextLine().toLowerCase();
-					if (choice == "yes") {
-						target = character;
-					}
-				}
-			}
-		}
-		scanner.close();
-		return target;
-	}
-	
-	protected abstract boolean attack(Character target);
-	protected abstract boolean attack(List<Character> targets);
-	
-	protected abstract boolean heal(Character target);
-	protected abstract boolean heal(List<Character> targets);
-	
 }

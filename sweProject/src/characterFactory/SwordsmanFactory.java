@@ -4,7 +4,7 @@ import character.Character;
 import character.Swordsman;
 
 public class SwordsmanFactory extends AbstractCharacterFactory {
-	public Character createCharacter() {
-		return new Swordsman();
+	public Character createCharacter(String name) {
+		return new Swordsman(name);
 	}
 }

@@ -12,13 +12,12 @@ public class Poisonous extends SkillDecorator {
 		super(base);
 	}
 	
-	public void apply(Character target) {
-		super.apply(target);
-		target.setState(new Poisoned(CharacterState.ID.POISONED, 3));
+	public void apply(Character player, Character target) {
+		super.apply(player, target);
+		target.setState(new Poisoned(3));
 	}
 	
     public String getName() {
         return "Poisonous " + base.getName();
     }
-
 }

@@ -4,7 +4,7 @@ import character.Character;
 import character.Archer;
 
 public class AcrherFactory extends AbstractCharacterFactory {
-	public Character createCharacter() {
-		return new Archer();
+	public Character createCharacter(String name) {
+		return new Archer(name);
 	}
 }

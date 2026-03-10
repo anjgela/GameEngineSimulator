@@ -1,41 +1,24 @@
 package character;
 
-import java.util.List;
-import command.Command;
-import skill.AttackSkill;
 import skill.Skill;
+import skill.AttackSkill;
+import skill.HealSkill;
+import skill.Single;
+import skill.Multiple;
+import skill.Poisonous;
 
 public class Archer extends Character{
-	public Archer() {
-		AttackSkill singleArrow = new AttackSkill("singleArrow");
+	public Archer(String name) {
+		super(name);
+		Skill singleArrow = new Single(new AttackSkill("arrow"));
 		attackSkills.add(singleArrow);
-		AttackSkill multipleArrow = new AttackSkill("multipleArrow");
-		attackSkills.add(multipleArrow);
-		AttackSkill poisonousArrow = new AttackSkill("posinousArrow");
+		Skill rainingArrow = new Multiple(new AttackSkill("raining arrow"));
+		attackSkills.add(rainingArrow);
+		Skill poisonousArrow = new Single(new Poisonous(new AttackSkill("arrow"))); //Poisonous
 		attackSkills.add(poisonousArrow);
-	}
-
-	@Override
-	protected boolean attack(Character target) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean attack(List<Character> targets) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean heal(Character target) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	protected boolean heal(List<Character> targets) {
-		// TODO Auto-generated method stub
-		return false;
+		Skill healingArrow = new Single(new HealSkill("arrow")); //
+		healSkills.add(healingArrow);
+		Skill healingRain = new Multiple(new HealSkill("rain"));
+		healSkills.add(healingRain);
 	}
 }

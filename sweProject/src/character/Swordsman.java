@@ -2,38 +2,26 @@ package character;
 
 import java.util.List;
 
-import command.Command;
+import skill.Skill;
 import skill.AttackSkill;
+import skill.HealSkill;
+import skill.Single;
+import skill.Multiple;
+import skill.Poisonous;
 
 public class Swordsman extends Character {
 	
-	public Swordsman() {
-		AttackSkill singleSword = new AttackSkill("singleSword");
+	public Swordsman(String name) {
+		super(name);
+		Skill singleSword = new Single(new AttackSkill("sword"));
 		attackSkills.add(singleSword);
-		AttackSkill multipleSword = new AttackSkill("multipleSword");
+		Skill multipleSword = new Multiple(new AttackSkill("sword"));
 		attackSkills.add(multipleSword);
-		AttackSkill poisonousSword = new AttackSkill("poisonousSword");
+		Skill poisonousSword = new Single(new Poisonous(new AttackSkill("sword")));
 		attackSkills.add(poisonousSword);
+		Skill healingSword = new Single(new HealSkill("sword"));
+		healSkills.add(healingSword);
+		Skill healingSwords = new Multiple(new HealSkill("sword"));
+		healSkills.add(healingSwords);
 	}
-	public Swordsman(String chosenName) {
-		 name = chosenName; //scanned
-	}
-	
-	@Override
- 	protected boolean attack(Character target) {
-		return false;
- 		}
-	@Override
- 	protected boolean attack(List<Character> targets) {
-		return false;
- 		}
-	
- 	@Override
-	protected boolean heal(Character target) {
-		return false;
- 	}
- 	@Override
-	protected boolean heal(List<Character> targets) {
-		return false;
- 	}
 }
