@@ -2,6 +2,7 @@ package skill;
 
 import java.util.List;
 import character.Character;
+import state.Slowed;
 
 public class AttackSkill implements Skill{
 	private final String name;
@@ -29,6 +30,9 @@ public class AttackSkill implements Skill{
 	@Override
 	public void apply(Character player, Character target) {
 		target.takeDamage(damage);
+		if (target.getHealth() <= 20) {
+			target.setState(new Slowed(1));
+		}
 		
 	}
 

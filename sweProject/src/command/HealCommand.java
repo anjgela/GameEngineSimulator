@@ -1,5 +1,8 @@
 package command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import skill.AttackSkill;
 import skill.HealSkill;
 import skill.Skill;
@@ -18,19 +21,23 @@ public class HealCommand extends Command{
 	}
 	
 	@Override
-    public void execute(BattleEngine engine) {
+    public List<Event> execute(BattleEngine engine) {
+		List<Event> generatedEvents = new ArrayList<>();
         int cost = Skill.POWER;
+        
         if (player.getPowerStorage() < 0) {
-            engine.notifyObservers(new Event(Event.Type.SKILL_FAILED, 
+            generatedEvents.add(new Event(Event.Type.SKILL_FAILED, 
                     player.getName() + " lacks power for " + skill.getName()));
-            return;
+            return generatedEvents;
         }
-    	player.restorePowerStorage(cost);
+    	player.usePowerStorage(cost);
+    	player.regeneratePowerStorage();
     	
     	skill.apply(player, targets);
     	for (Character target : targets) {
-        	engine.notifyObservers(new Event(Event.Type.HEAL,new TurnInfo(player, this, true, target, findBaseHealing(this.skill))));
+        	generatedEvents.add(new Event(Event.Type.HEAL,new TurnInfo(player, this, true, target, findBaseHealing(this.skill))));
     	}
+    	return generatedEvents;
     }
 	
 //helper methods

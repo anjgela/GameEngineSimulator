@@ -11,15 +11,13 @@ import command.Command;
 import observer.Observable;
 import observer.Observer;
 
-public class BattleEngine implements Observable{
+public class BattleEngine extends Observable{
 	private static BattleEngine instance = null;
 	
 	private final List<Character> greenTeam;
 	private final List<Character> pinkTeam;
 	public static final int MAX_PLAYERS_PER_TEAM = 3;
-	
-	private List<Observer> observers = new ArrayList<>();
-	
+		
 	private String currentTeam = "green";
 	private int currentGreenIndex = 0;
 	private int currentPinkIndex = 0;
@@ -44,27 +42,6 @@ public class BattleEngine implements Observable{
 		return instance;
 	}
 	
-	//observer methods
-	@Override
-	public void attach(Observer observer) {
-		observers.add(observer);
-	}
-	
-	@Override
-	public void detach(Observer observer) {
-		observers.remove(observer);
-	}
-	
-	@Override
-	public void notifyObservers(Object object) {
-		if (object instanceof Event) {
-			Event event = (Event) object;
-			for (Observer observer: observers) {
-				observer.update(event);
-			}
-		}
-	}
-	
 	public void start() {
 		notifyObservers(new Event(Event.Type.BATTLE_START, null));
 		while (!isBattleOver()) {
@@ -82,8 +59,10 @@ public class BattleEngine implements Observable{
 				command = player.chooseAction(greenTeam, pinkTeam);
 			}
 			
-			command.execute(this);
-			
+			List<Event> commandResults = command.execute(this);
+			for (Event e : commandResults) {
+				notifyObservers(e);
+			}
 			
 			for (Character green : greenTeam) {
 				if (green.isAlive()) {
@@ -105,7 +84,7 @@ public class BattleEngine implements Observable{
 	}
 	
 	//probabilistic logic
-	public boolean attackSucceds(Character player, Character target) {
+	public boolean attackSucceeds(Character player, Character target) {
 		float hitChance = player.getState().getHitChance();
 		float dodgeChance = target.getState().getDodgeChance();
 		float successChance = hitChance * (1 - dodgeChance);
@@ -113,7 +92,7 @@ public class BattleEngine implements Observable{
 		return rand.nextFloat() < successChance;
 	}
 	
-	public boolean attackSucceds(Character player, List<Character> targets) {
+	public boolean attackSucceeds(Character player, List<Character> targets) {
 		float hitChance = player.getState().getHitChance();
 		int successes = 0;
 		for (Character target : targets) {

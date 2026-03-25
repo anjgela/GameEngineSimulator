@@ -1,24 +1,30 @@
 package character;
 
 import skill.Skill;
-import skill.AttackSkill;
-import skill.HealSkill;
 import skill.Single;
 import skill.Multiple;
 import skill.Poisonous;
+import skillFactory.AbstractSkillFactory;
+import skillFactory.AttackSkillFactory;
+import skillFactory.HealSkillFactory;
 
 public class Archer extends Character{
 	public Archer(String name) {
 		super(name);
-		Skill singleArrow = new Single(new AttackSkill("arrow"));
-		attackSkills.add(singleArrow);
-		Skill rainingArrow = new Multiple(new AttackSkill("raining arrow"));
-		attackSkills.add(rainingArrow);
-		Skill poisonousArrow = new Single(new Poisonous(new AttackSkill("arrow"))); //Poisonous
-		attackSkills.add(poisonousArrow);
-		Skill healingArrow = new Single(new HealSkill("arrow")); //
-		healSkills.add(healingArrow);
-		Skill healingRain = new Multiple(new HealSkill("rain"));
-		healSkills.add(healingRain);
+		AbstractSkillFactory attackFactory = new AttackSkillFactory();
+        AbstractSkillFactory healFactory = new HealSkillFactory();
+        
+        Skill baseAttack = attackFactory.createSkill("arrow");
+        Skill rainingAttack = attackFactory.createSkill("raining arrow");
+        
+        Skill baseHeal = healFactory.createSkill("arrow");
+        Skill rainingHeal = healFactory.createSkill("rain");
+        
+        attackSkills.add(new Single(baseAttack));
+        attackSkills.add(new Multiple(rainingAttack));
+        attackSkills.add(new Single(new Poisonous(baseAttack)));
+        
+        healSkills.add(new Single(baseHeal));
+        healSkills.add(new Multiple(rainingHeal));
 	}
 }

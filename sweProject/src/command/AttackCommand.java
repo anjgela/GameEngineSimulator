@@ -1,5 +1,8 @@
 package command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.BattleEngine;
 import engine.Event;
 import character.Character;
@@ -16,27 +19,31 @@ public class AttackCommand extends Command {
 		this.skill = skill;
 	}
 
-	public void execute(BattleEngine engine) { 
+	@Override
+	public List<Event> execute(BattleEngine engine) { 
+		List<Event> generatedEvents = new ArrayList<>();
 		int cost = Skill.POWER;
 		//if to check if skill is single or multiple. if multiple : cost = POWER *3/2
 		if (player.getPowerStorage() < cost) {
-			engine.notifyObservers(new Event(Event.Type.SKILL_FAILED, 
+			generatedEvents.add(new Event(Event.Type.SKILL_FAILED, 
 					player.getName() + "lacks power for " + skill.getName()));
-			return;
+			return generatedEvents;
 		}
 		
 		player.usePowerStorage(cost);
+		player.regeneratePowerStorage();
 		
-	    if (engine.attackSucceds(player, targets)) {
+	    if (engine.attackSucceeds(player, targets)) {
 	        skill.apply(player, targets);
 	        for (Character target : targets) {
-	        	engine.notifyObservers(new Event(Event.Type.ATTACK_HIT,new TurnInfo(player, this, true, target, findBaseDamage(this.skill))));
+	        	generatedEvents.add(new Event(Event.Type.ATTACK_HIT,new TurnInfo(player, this, true, target, findBaseDamage(this.skill))));
 	        }
 	    } else {
 	    	for (Character target : targets) {
-	    		engine.notifyObservers(new Event(Event.Type.ATTACK_DODGE, new TurnInfo(player, this, false, target, 0)));
+	    		generatedEvents.add(new Event(Event.Type.ATTACK_DODGE, new TurnInfo(player, this, false, target, 0)));
 	    		}
 	    	}
+	    return generatedEvents;
 	}
 	
 //helper methods

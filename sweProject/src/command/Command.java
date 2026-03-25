@@ -1,14 +1,15 @@
 package command;
+
 import java.util.List;
+import java.util.ArrayList;
 
 import character.Character;
 import engine.BattleEngine;
-
-import java.util.ArrayList;
+import engine.Event;
 
 public abstract class Command { //to maybe later change into AbstractCommand implementing interface Command
-	Character player;
-	List<Character> targets = new ArrayList<>();
+	protected Character player;
+	protected List<Character> targets = new ArrayList<>();
 	protected final String name;
 	
 	public Command() {
@@ -45,5 +46,5 @@ public abstract class Command { //to maybe later change into AbstractCommand imp
 	public String getName() {
 		return name;
 	}
-	public abstract void execute(BattleEngine engine); //receives BattleEngine so Command does not depend on the singleton
+	public abstract List<Event> execute(BattleEngine engine); //receives BattleEngine so Command does not depend on the singleton
 }

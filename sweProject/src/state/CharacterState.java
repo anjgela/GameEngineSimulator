@@ -6,25 +6,30 @@ import character.Character;
 public abstract class CharacterState {
 
 	public static enum ID {NORMAL, SLOWED, POISONED, ENHANCED};
-	private ID id;
 	protected int remainingTurns;
+	protected final float hitChance;
+	protected final float dodgeChance;
 	
-	protected CharacterState(ID id, int duration) {
+	protected CharacterState( int duration, float hitChance, float dodgeChance) {
 		this.remainingTurns = duration;
-		this.id = id;
+		this.hitChance = hitChance;
+		this.dodgeChance = dodgeChance;
 		}
 	
-	protected CharacterState(ID id) {
+	protected CharacterState(float hitChance, float dodgeChance) {
 		remainingTurns = 100;
-		this.id = id;
+		this.hitChance = hitChance;
+		this.dodgeChance = dodgeChance;
 	}
 	
-	public ID getID() {
-		return id;
-	}
+	public abstract ID getID();
 
-	public abstract float getHitChance();
-	public abstract float getDodgeChance();
+	public float getHitChance() {
+		return hitChance;
+	}
+	public float getDodgeChance() {
+		return dodgeChance;
+	}
 		
 	public void onTurnStart(Character player) {
 		if (remainingTurns > 0) {

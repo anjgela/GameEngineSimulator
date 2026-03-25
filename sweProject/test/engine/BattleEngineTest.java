@@ -49,67 +49,39 @@ public class BattleEngineTest {
 	}
 
 	@Test
-	public void notifyObserversTest() {
-		Event e = new Event(Event.Type.BATTLE_START, null);
+	public void attackSucceedsTest() {
 		
-		engine.notifyObservers(e);
+		CharacterState playerState = new StubState(1.0f, 0.0f);
+		CharacterState enemyState = new StubState(0.0f, 0.0f);
 		
-		assertEquals(Event.Type.BATTLE_START, logger.getReceived().type());
-
-	}
-	
-	@Test
-	public void attackSuccedsTest() {
-		StubState playerState = new StubState();
-		StubState enemyState = new StubState();
-		playerState.setHitChance(1.0f);
-		enemyState.setDodgeChance(0.0f);
 		greenChar.setState(playerState);
 		pinkChar.setState(enemyState);
 		
-		boolean result = engine.attackSucceds(greenChar, pinkChar);
+		boolean result = engine.attackSucceeds(greenChar, pinkChar);
 		
 		assertTrue(result);
 	}
 	
 	@Test
 	public void attackFailsTest() {
-		StubState playerState = new StubState();
-		playerState.setHitChance(0.0f);
+		CharacterState playerState = new StubState(0.0f, 0.0f);
 		greenChar.setState(playerState);
 		
-		boolean result = engine.attackSucceds(greenChar, pinkChar);
+		boolean result = engine.attackSucceeds(greenChar, pinkChar);
 		
 		assertFalse(result);
 	}
 
 //stubs
 	public class StubState extends CharacterState {
-		private float testHitChance;
-		private float testDodgeChance;
 		
-		public StubState() {
-	        super(ID.NORMAL, 999); 
-	        this.testHitChance = 0.6f;
-	        this.testDodgeChance = 0.3f;
+		public StubState(float hitChance, float dodgeChance) {
+	        super(999, hitChance, dodgeChance); 
 	    }
-	
-	    public void setHitChance(float chance) {
-	        this.testHitChance = chance;
-	    }
-	
-	    public void setDodgeChance(float chance) {
-	        this.testDodgeChance = chance;
-	    }
-	
-	    @Override
-	    public float getHitChance() {
-	        return testHitChance;
-	    }
-	
-	    @Override
-	    public float getDodgeChance() {
-	        return testDodgeChance;
-	    }
+	    
+		@Override
+		public ID getID() {
+			return ID.NORMAL;
+		}
 	}
 }

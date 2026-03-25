@@ -1,9 +1,21 @@
 package observer;
 
-import engine.Event;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface Observable {
-	public abstract void attach(Observer observer);
-	public abstract void detach(Observer observer);
-	public abstract void notifyObservers(Object object);
+public abstract class Observable {
+	private List<Observer> observers = new ArrayList<>();
+	
+	public void attach(Observer observer) {
+		observers.add(observer);
+	}
+	public void detach(Observer observer) {
+		observers.remove(observer);
+	}
+	protected void notifyObservers(Object object) {
+		for (Observer observer : observers) {
+			observer.update(object);
+		}
+			
+	}
 }

@@ -7,7 +7,6 @@ import state.CharacterState;
 import state.Poisoned;
 
 public class Poisonous extends SkillDecorator {
-	String name;
 	public Poisonous(Skill base) {
 		super(base);
 	}
