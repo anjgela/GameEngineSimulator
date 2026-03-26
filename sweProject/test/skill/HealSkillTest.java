@@ -24,7 +24,7 @@ public class HealSkillTest {
 		Skill attackSkill = player.getAttackSkills().get(0);
 		AttackSkill baseAttackSkill = (AttackSkill) ((SkillDecorator) attackSkill).getBaseSkill();
 		attackSkill.apply(player, target);
-		assertEquals(Character.MAX_HEALTH-baseAttackSkill.getDamage(), target.getHealth());
+		assertEquals(Character.MAX_HEALTH-baseAttackSkill.getEffectValue(), target.getHealth());
 
 	}
 	

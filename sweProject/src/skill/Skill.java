@@ -10,4 +10,6 @@ public interface Skill {
 	public TargetType getTargetType();
 	public void apply(Character player, Character target);
 	public void apply(Character player, List<Character> targets);
+	public int getEffectValue();
+	
 }

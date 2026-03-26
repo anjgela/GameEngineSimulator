@@ -20,7 +20,7 @@ public class HealCommandTest {
 	@Before
 	public void setUp() {
 		player = new Wizard("player");
-		engine = BattleEngine.getInstance(null, null);
+		engine = BattleEngine.getInstance();
 	}
 	
 	@Test
@@ -37,7 +37,7 @@ public class HealCommandTest {
 		
 		command.execute(engine);
 		
-		assertEquals(player.getHealth(), damagedHealth+ baseHealSkill.getHealing());		
+		assertEquals(player.getHealth(), damagedHealth+ baseHealSkill.getEffectValue());		
 	}
 	
 	@Test

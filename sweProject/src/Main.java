@@ -6,6 +6,7 @@ import character.Character;
 import character.Swordsman;
 import character.Wizard;
 import engine.BattleEngine;
+import engine.Logger;
 
 public class Main { //TODO maybe create a new class "Menu" in engine to manage setup??
 	public static void main(String[] args) {
@@ -78,7 +79,9 @@ public class Main { //TODO maybe create a new class "Menu" in engine to manage s
 				System.out.println("Next!");
 			}
 		}
-		BattleEngine engine = BattleEngine.getInstance(teamGreen, teamPink);
+		BattleEngine engine = BattleEngine.getInstance();
+		engine.setupTeams(teamGreen, teamPink);
+		engine.attach(new Logger());
 		engine.start();
 	}
 }

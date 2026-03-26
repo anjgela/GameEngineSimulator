@@ -33,10 +33,10 @@ public class AttackCommand extends Command {
 		player.usePowerStorage(cost);
 		player.regeneratePowerStorage();
 		
-	    if (engine.attackSucceeds(player, targets)) {
+		if (engine.attackSucceeds(player, targets)) {
 	        skill.apply(player, targets);
 	        for (Character target : targets) {
-	        	generatedEvents.add(new Event(Event.Type.ATTACK_HIT,new TurnInfo(player, this, true, target, findBaseDamage(this.skill))));
+	        	generatedEvents.add(new Event(Event.Type.ATTACK_HIT, new TurnInfo(player, this, true, target, skill.getEffectValue())));
 	        }
 	    } else {
 	    	for (Character target : targets) {
@@ -46,16 +46,4 @@ public class AttackCommand extends Command {
 	    return generatedEvents;
 	}
 	
-//helper methods
-	private int findBaseDamage(Skill s) {
-		Skill current = s;
-		while (current instanceof SkillDecorator) {
-			current = ((SkillDecorator) current).getBaseSkill();
-		}
-		
-		if (current instanceof AttackSkill) {
-			return ((AttackSkill) current).getDamage();
-		}
-		return 0;
-	}
 }

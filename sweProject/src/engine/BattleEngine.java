@@ -14,8 +14,8 @@ import observer.Observer;
 public class BattleEngine extends Observable{
 	private static BattleEngine instance = null;
 	
-	private final List<Character> greenTeam;
-	private final List<Character> pinkTeam;
+	private List<Character> greenTeam;
+	private List<Character> pinkTeam;
 	public static final int MAX_PLAYERS_PER_TEAM = 3;
 		
 	private String currentTeam = "green";
@@ -25,22 +25,23 @@ public class BattleEngine extends Observable{
 	
 	private String winners;
 	
-	private BattleEngine(List<Character> green, List<Character> pink) {
-		greenTeam = green;
-		pinkTeam = pink;
-		//populate order
-		turnOrder.put("green", greenTeam);
-		turnOrder.put("pink", pinkTeam);
-		attach(new Logger());	//default logger
-	}
-	
 	//singleton
-	public static BattleEngine getInstance(List<Character> green, List<Character> pink) {
+	private BattleEngine() {
+	}	
+
+	public static BattleEngine getInstance() {
 		if (instance == null) {
-			instance = new BattleEngine(green, pink);
+			instance = new BattleEngine();
 		}
 		return instance;
 	}
+	
+	public void setupTeams(List<Character> green, List<Character> pink) {
+        this.greenTeam = green;
+        this.pinkTeam = pink;
+        turnOrder.put("green", greenTeam);
+        turnOrder.put("pink", pinkTeam);
+    }
 	
 	public void start() {
 		notifyObservers(new Event(Event.Type.BATTLE_START, null));

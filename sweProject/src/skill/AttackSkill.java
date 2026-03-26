@@ -20,12 +20,7 @@ public class AttackSkill implements Skill{
 	@Override
 	public TargetType getTargetType() {
 		return TargetType.SINGLE;
-	}
-
-	public int getDamage() {
-		return damage;
-	}
-	
+	}	
 	
 	@Override
 	public void apply(Character player, Character target) {
@@ -41,6 +36,11 @@ public class AttackSkill implements Skill{
 		for (Character target : targets) {
 			target.takeDamage(damage);
 		}
+	}
+	
+	@Override
+	public int getEffectValue() {
+		return damage;
 	}
 	
 }

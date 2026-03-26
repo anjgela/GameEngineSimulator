@@ -33,7 +33,8 @@ public class BattleEngineTest {
 		greenTeam.add(greenChar);
 		pinkTeam.add(pinkChar);
 		
-		engine = BattleEngine.getInstance(greenTeam, pinkTeam);	
+		engine = BattleEngine.getInstance();
+		engine.setupTeams(greenTeam, pinkTeam);
 		logger = new Logger();
 		engine.attach(logger);
 	}

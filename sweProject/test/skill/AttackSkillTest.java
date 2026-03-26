@@ -29,7 +29,7 @@ public class AttackSkillTest {
 	public void applyTest() {
 		skill.apply(player, target);
 		
-		assertEquals(Character.MAX_HEALTH-baseSkill.getDamage(), target.getHealth());
+		assertEquals(Character.MAX_HEALTH-baseSkill.getEffectValue(), target.getHealth());
 	}
 	
 	@Test 

@@ -35,24 +35,11 @@ public class HealCommand extends Command{
     	
     	skill.apply(player, targets);
     	for (Character target : targets) {
-        	generatedEvents.add(new Event(Event.Type.HEAL,new TurnInfo(player, this, true, target, findBaseHealing(this.skill))));
+        	generatedEvents.add(new Event(Event.Type.HEAL, new TurnInfo(player, this, true, target, skill.getEffectValue())));
     	}
     	return generatedEvents;
     }
 	
-//helper methods
-    private int findBaseHealing(Skill s) {
-    	Skill current = s;
-    	while (current instanceof SkillDecorator) {
-    		current = ((SkillDecorator) current).getBaseSkill();
-    	}
-    	
-    	if (current instanceof HealSkill) {
-    		return ((HealSkill) current).getHealing();
-    	}
-    	return 0;
-    }
-        
 }
 
  /*FIXME make attackcommand and healcommand on one target, 

@@ -21,7 +21,7 @@ public class AttackCommandTest {
 	public void setUp() {
 		player = new Swordsman("player");
 		target = new Archer("target");
-		engine = BattleEngine.getInstance(null, null);
+		engine = BattleEngine.getInstance();
 	}
 
 	@Test

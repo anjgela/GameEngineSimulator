@@ -22,10 +22,6 @@ public class HealSkill implements Skill{
 	public TargetType getTargetType() {
 		return TargetType.SINGLE;
 	}
-	
-	public int getHealing() {
-		return healing;
-	}
 
 	@Override
 	public void apply(Character player, Character target) {
@@ -40,5 +36,10 @@ public class HealSkill implements Skill{
 		for (Character target : targets) {
 			this.apply(player, target);
 		}
+	}
+	
+	@Override
+	public int getEffectValue() {
+		return healing;
 	}
 }
